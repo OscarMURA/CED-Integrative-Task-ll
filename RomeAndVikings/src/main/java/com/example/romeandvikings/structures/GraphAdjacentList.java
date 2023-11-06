@@ -12,13 +12,15 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         super(type);
         vertexs = new HashMap<>();
     }
+
+
     @Override
     public boolean addVertex(K key, V value) {
         boolean added = false;
         if(!vertexs.containsKey(key)){
             vertexs.put(key,new VertexAdjacentList<>(key,value));
-            vertexesIndex.put(key,currentVertexNumber);
-            currentVertexNumber++;
+            vertexesPosition.put(key,numberVertexsCurrent);
+            numberVertexsCurrent++;
             added = true;
         }
         return added;
@@ -29,6 +31,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         boolean removed = false;
         VertexAdjacentList<K,V> vertex = vertexs.remove(key);
         if(vertex != null){
+            removed = true;
             for(K KeyVertex : vertexs.keySet()){
                 VertexAdjacentList<K,V> vertexList = vertexs.get(KeyVertex);
                 LinkedList<Edge<K,V>> edges = vertexList.getEdges();
@@ -36,8 +39,6 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
                     Edge<K, V> edge = iterator.next();
                     if (edge.getDestination().getKey().compareTo(key) == 0) {
                         iterator.remove();
-                        removed = true;
-
                     }
                 }
             }
@@ -50,6 +51,9 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         return vertexs.get(key);
     }
 
+    public HashMap<K,VertexAdjacentList<K,V>> getVertexs() {
+        return vertexs;
+    }
 
     @Override
     public boolean addEdge(K key1, K key2, int weight) throws exceptionNoVertexExist, exceptionOnGraphTypeNotAllowed {
@@ -66,13 +70,13 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
            throw new exceptionOnGraphTypeNotAllowed("Loops");
         }
         Edge<K,V> edge = new Edge<>(v1,v2,weight);
-        if(!multipleEdges && v1.getEdges().contains(edge)){
+        if(!multiple && v1.getEdges().contains(edge)){
             throw new exceptionOnGraphTypeNotAllowed("Multiple Edges");
         }
         v1.getEdges().add(edge);
         edges.add(edge);
         added = true;
-        if(!isDirected){
+        if(!directed){
            Edge<K,V> edge2 = new Edge<>(v2,v1,weight);
            v2.getEdges().add(edge2);
            edges.add(edge2);
@@ -96,7 +100,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
                 removed = true;
             }
         }
-        if (!isDirected) {
+        if (!directed) {
             // Si el grafo no es dirigido, eliminar aristas salientes de v2 hacia v1
             List<Edge<K, V>> edgesV2 = v2.getEdges();
             for (Iterator<Edge<K, V>> iterator = edgesV2.iterator(); iterator.hasNext();) {
@@ -108,6 +112,8 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         }
         return removed;
     }
+
+
 
     public boolean adjacent(K keyVertex1, K keyVertex2) {
         boolean adjacent = false;
@@ -134,16 +140,14 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         }
     }
 
-
     private int vertexsIndex(K key){
-        Integer index = vertexesIndex.get(key);
+        Integer index = vertexesPosition.get(key);
         return index == null ? -1 : index;
     }
 
 
-
     @Override
-    public void BFS(K keyVertex) {
+    public void BFS(K keyVertex) throws exceptionNoVertexExist {
         for(K key:vertexs.keySet()){
             Vertex<K,V> vertex = vertexs.get(key);
             vertex.setColor(Color.WHITE);
@@ -152,6 +156,9 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         }
 
         VertexAdjacentList<K,V> vertexL = vertexs.get(keyVertex);
+        if(vertexL==null)
+            throw new exceptionNoVertexExist(keyVertex.toString());
+
         vertexL.setColor(Color.GRAY);
         vertexL.setDistance(0);
         Queue<VertexAdjacentList<K,V>> queue = new LinkedList<>();
@@ -160,6 +167,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
             VertexAdjacentList<K,V> vertex = queue.poll();
             LinkedList<Edge<K,V>> edges = vertex.getEdges();
             for(Edge<K,V> edge : edges){
+
                 VertexAdjacentList<K,V> vertex2 = (VertexAdjacentList<K, V>) edge.getDestination();
                 if(vertex2.getColor()==Color.WHITE){
                     vertex2.setColor(Color.GRAY);
@@ -188,21 +196,22 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
     }
 
     private void DFSVisit(VertexAdjacentList<K,V> vertex, int t){
-        time++;
-        vertex.setDiscoveryTime(t);
+        time+=1;
+        vertex.setDistance(time);
         vertex.setColor(Color.GRAY);
         LinkedList<Edge<K,V>> edges = vertex.getEdges();
         for(Edge<K,V> edge : edges){
             VertexAdjacentList<K,V> vertex2 = (VertexAdjacentList<K, V>) edge.getDestination();
             if(vertex2.getColor()==Color.WHITE){
                 vertex2.setPredecessor(vertex);
-                DFSVisit(vertex2,t);
+                DFSVisit(vertex2,time);
             }
         }
         vertex.setColor(Color.BLACK);
-        time++;
+        time+=1;
         vertex.setFinishTime(time);
     }
+
 
     @Override
     public ArrayList<Integer> dijkstra(K keyVertexSource) throws exceptionNoVertexExist {
@@ -237,7 +246,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
 
     @Override
     public ArrayList<Edge<K, V>> kruskal() {
-        if(isDirected)
+        if(directed)
             throw new UnsupportedOperationException("Kruskal algorithm is not supported for directed graphs");
         ArrayList<Edge<K,V>> mst = new ArrayList<>();
         UnionFind unionFind = new UnionFind(vertexs.size());
@@ -252,5 +261,80 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         }
         return mst;
     }
+
+    public ArrayList<Edge<K, V>> prim() throws exceptionOnGraphTypeNotAllowed {
+        if (directed) {
+            throw new exceptionOnGraphTypeNotAllowed("prim algorithm is not supported for directed graphs");
+        }
+        HashSet<K> visited = new HashSet<>();
+        PriorityQueue<Edge<K, V>> minHeap = new PriorityQueue<>(Comparator.comparingInt(Edge::getWeight));
+        ArrayList<Edge<K, V>> minimumSpanningTree = new ArrayList<>();
+        K startVertexKey = vertexs.keySet().iterator().next(); // Comenzar desde un vértice arbitrario
+        visited.add(startVertexKey);
+        addEdgesToMinHeap(startVertexKey, minHeap);
+        while (visited.size() < vertexs.size()) {
+            Edge<K, V> minEdge = minHeap.poll();
+            K fromKey = minEdge.getStart().getKey();
+            K toKey = minEdge.getDestination().getKey();
+
+            if (!visited.contains(toKey)) {
+                visited.add(toKey);
+                minimumSpanningTree.add(minEdge);
+                addEdgesToMinHeap(toKey, minHeap);
+            }
+        }
+
+        return minimumSpanningTree;
+    }
+
+    private void addEdgesToMinHeap(K key, PriorityQueue<Edge<K, V>> minHeap) {
+        VertexAdjacentList<K, V> vertex = vertexs.get(key);
+        for (Edge<K, V> edge : vertex.getEdges()) {
+            K neighborKey = edge.getDestination().getKey();
+            int weight = edge.getWeight();
+            if (!minHeap.contains(new Edge<>(vertex, vertexs.get(neighborKey), weight))) {
+                minHeap.add(new Edge<>(vertex, vertexs.get(neighborKey), weight));
+            }
+        }
+    }
+
+    public ArrayList<ArrayList<Integer>> floydWarshall() {
+        int size = numberVertexsCurrent;
+        ArrayList<ArrayList<Integer>> dist = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+            ArrayList<Integer> row = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                if (i == j) {
+                    row.add(0);
+                } else {
+                    row.add(INFINITE);
+                }
+            }
+            dist.add(row);
+        }
+
+        for (Edge<K, V> edge : edges) {
+            int fromIndex = vertexsIndex(edge.getStart().getKey());
+            int toIndex = vertexsIndex(edge.getDestination().getKey());
+            dist.get(fromIndex).set(toIndex, edge.getWeight());
+        }
+
+        for (int k = 0; k < size; k++) {
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    int directPath = dist.get(i).get(j);
+                    int throughK = dist.get(i).get(k) + dist.get(k).get(j);
+                    if (throughK < directPath) {
+                        dist.get(i).set(j, throughK);
+                    }
+                }
+            }
+        }
+
+        return dist;
+    }
+
+
 
 }

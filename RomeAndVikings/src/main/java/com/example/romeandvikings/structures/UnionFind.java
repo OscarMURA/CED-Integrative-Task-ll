@@ -2,27 +2,33 @@ package com.example.romeandvikings.structures;
 
 public class UnionFind {
 
-    private int[] parent;
+    private int[] dad;
 
     public UnionFind(int size) {
-        parent = new int[size];
-        for(int i = 0; i < size; i++) {
-            parent[i] = i;
-        }
+        dad = new int[size];
+        int l=0;
+        do{
+            dad[l]=l;
+            l++;
+        }while(l<dad.length);
     }
+
 
     public int find(int x) {
-        if(parent[x] == x) {
-            return x;
+        int result=0;
+        if(dad[x] == x) {
+            result= x;
+        }else {
+            result= find(dad[x]);
         }
-        return find(parent[x]);
+        return result;
     }
 
-    public void union(int x, int y) {
-        int xRoot = find(x);
-        int yRoot = find(y);
-        if(xRoot != yRoot) {
-            parent[xRoot] = yRoot;
+    public void union(int value1, int value2) {
+        int ARoot = find(value1);
+        int BRoot = find(value2);
+        if(ARoot != BRoot) {
+            dad[ARoot] = BRoot;
         }
     }
 

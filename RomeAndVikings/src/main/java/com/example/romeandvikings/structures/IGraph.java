@@ -12,6 +12,7 @@ public interface IGraph<K extends Comparable<K>,V> {
     boolean removeEdge(K key1, K key2) throws exceptionNoVertexExist;
     boolean adjacent(K keyVertex1, K keyVertex2) throws exceptionNoVertexExist;
     void BFS(K keyVertex) throws exceptionNoVertexExist;
+    void DFS() throws exceptionNoVertexExist;
     ArrayList<Integer> dijkstra(K keyVertexSource) throws exceptionNoVertexExist;
-    ArrayList<Edge<K, V>> kruskal();
+    ArrayList<Edge<K, V>> kruskal() throws exceptionOnGraphTypeNotAllowed;
 }
