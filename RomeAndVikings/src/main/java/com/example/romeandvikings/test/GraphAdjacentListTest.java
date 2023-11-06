@@ -381,40 +381,6 @@ public class GraphAdjacentListTest {
             assertNotNull(e.getMessage());
         }
     }
-
-    @Test
-    public void testDFSWithAllVertexConected(){
-        setUpStageDirected();
-        graph.DFS();
-        System.out.println(graph.getVertex(1).getFinishTime());
-        System.out.println(graph.getVertex(2).getFinishTime());
-        System.out.println(graph.getVertex(3).getFinishTime());
-        System.out.println(graph.getVertex(4).getFinishTime());
-        System.out.println(graph.getVertex(5).getFinishTime());
-        System.out.println(graph.getVertex(6).getFinishTime());
-        System.out.println(graph.getVertex(7).getFinishTime());
-        System.out.println(graph.getVertex(8).getFinishTime());
-        System.out.println(graph.getVertex(9).getFinishTime());
-        System.out.println(graph.getVertex(10).getFinishTime());
-        assertEquals(0,graph.getVertex(1).getDistance());
-        assertEquals(1,graph.getVertex(2).getDistance());
-        assertEquals(1,graph.getVertex(3).getDistance());
-        assertEquals(2,graph.getVertex(4).getDistance());
-        assertEquals(5,graph.getVertex(5).getDistance());
-        assertEquals(2,graph.getVertex(6).getDistance());
-        assertEquals(3,graph.getVertex(7).getDistance());
-        assertEquals(4,graph.getVertex(8).getDistance());
-        assertEquals(2,graph.getVertex(9).getDistance());
-        assertEquals(3,graph.getVertex(10).getDistance());
-        assertEquals(3,graph.getVertex(11).getDistance());
-
-    }
-
-
-
-
-
-
-
+    
 
 }

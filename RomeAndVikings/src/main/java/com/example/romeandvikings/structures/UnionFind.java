@@ -29,6 +29,7 @@ public class UnionFind {
         int BRoot = find(value2);
         if(ARoot != BRoot) {
             dad[ARoot] = BRoot;
+
         }
     }
 

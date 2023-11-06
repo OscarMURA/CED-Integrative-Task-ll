@@ -2,6 +2,7 @@ package com.example.romeandvikings.structures;
 
 import com.example.romeandvikings.exceptions.exceptionNoVertexExist;
 import com.example.romeandvikings.exceptions.exceptionOnGraphTypeNotAllowed;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,7 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
         int i=0;
         do{
             int j=0;
+
             do{
                 matrix[i][j] = new ArrayList<>();j++;
             }while(j<vertexNumber);
@@ -33,6 +35,7 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
             return true;
         }
         return false;
+
     }
 
     @Override
@@ -40,6 +43,7 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
         Vertex<K,V> vertex = vertexs.remove(key);
         if(vertex != null){
             int index= indexVertex(key);
+
             int i=0;
             do{
                 matrix[index][i].clear();
@@ -53,6 +57,7 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
 
     private int indexVertex(K key){
         Integer index = vertexesPosition.get(key);
+
         return index == null ? -1 : index;
     }
     @Override
@@ -83,6 +88,7 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
         Collections.sort(matrix[vertex1][vertex2]);
         edges.add(new Edge<>(vertexs.get(key1),vertexs.get(key2),weight));
         if(!directed){
+
             matrix[vertex2][vertex1].add(weight);
             Collections.sort(matrix[vertex2][vertex1]);
             edges.add(new Edge<>(vertexs.get(key2),vertexs.get(key1),weight));
@@ -95,6 +101,7 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
         vertexsExist(key1,key2);
         int vertex1 = indexVertex(key1);
         int vertex2 = indexVertex(key2);
+
         if(matrix[vertex1][vertex2].size() > 0){
             matrix[vertex1][vertex2].remove(0);
             // Primero, eliminar las aristas según el criterio
@@ -105,6 +112,7 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
                 }
             }
             if (!directed) {
+
                 // Si el grafo no es dirigido, también eliminamos la arista inversa
                 matrix[vertex2][vertex1].remove(0);
                 for (Iterator<Edge<K, V>> iterator = edges.iterator(); iterator.hasNext();) {
@@ -123,6 +131,7 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
     public boolean adjacent(K keyVertex1, K keyVertex2) throws exceptionNoVertexExist {
         vertexsExist(keyVertex1,keyVertex2);
         return matrix[indexVertex(keyVertex1)][indexVertex(keyVertex2)].size() > 0;
+
     }
 
     @Override
@@ -203,7 +212,6 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
             for(Vertex<K,V> v: vertexs.values()) {
                 if(adjacent(u.getKey(),v.getKey())) {
                     int weight = matrix[indexVertex(u.getKey())][indexVertex(v.getKey())].get(0)+u.getDistance();
-
                     if(weight < v.getDistance()){
                         v.setDistance(weight);
                         v.setPredecessor(u);

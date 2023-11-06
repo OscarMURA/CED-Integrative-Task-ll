@@ -48,14 +48,15 @@ public class Vertex <K extends Comparable<K>,V>{
 
     public void setPredecessor(Vertex<K, V> predecessor) {
         this.predecessor = predecessor;
+
     }
 
     public int getDiscoveryTime() {
         return discoveryTime;
     }
-
     public Vertex<K, V> getPredecessor() {
         return predecessor;
+
     }
 
     public int getFinishTime() {
@@ -65,4 +66,5 @@ public class Vertex <K extends Comparable<K>,V>{
     public void setFinishTime(int finishTime) {
         this.finishTime = finishTime;
     }
+
 }

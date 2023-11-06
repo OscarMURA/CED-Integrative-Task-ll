@@ -13,7 +13,6 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         vertexs = new HashMap<>();
     }
 
-
     @Override
     public boolean addVertex(K key, V value) {
         boolean added = false;
@@ -21,6 +20,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
             vertexs.put(key,new VertexAdjacentList<>(key,value));
             vertexesPosition.put(key,numberVertexsCurrent);
             numberVertexsCurrent++;
+
             added = true;
         }
         return added;
@@ -32,6 +32,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         VertexAdjacentList<K,V> vertex = vertexs.remove(key);
         if(vertex != null){
             removed = true;
+
             for(K KeyVertex : vertexs.keySet()){
                 VertexAdjacentList<K,V> vertexList = vertexs.get(KeyVertex);
                 LinkedList<Edge<K,V>> edges = vertexList.getEdges();
@@ -39,6 +40,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
                     Edge<K, V> edge = iterator.next();
                     if (edge.getDestination().getKey().compareTo(key) == 0) {
                         iterator.remove();
+
                     }
                 }
             }
@@ -54,6 +56,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
     public HashMap<K,VertexAdjacentList<K,V>> getVertexs() {
         return vertexs;
     }
+
 
     @Override
     public boolean addEdge(K key1, K key2, int weight) throws exceptionNoVertexExist, exceptionOnGraphTypeNotAllowed {
@@ -77,6 +80,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         edges.add(edge);
         added = true;
         if(!directed){
+
            Edge<K,V> edge2 = new Edge<>(v2,v1,weight);
            v2.getEdges().add(edge2);
            edges.add(edge2);
@@ -114,7 +118,6 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
     }
 
 
-
     public boolean adjacent(K keyVertex1, K keyVertex2) {
         boolean adjacent = false;
         VertexAdjacentList<K,V> v1 = vertexs.get(keyVertex1);
@@ -142,12 +145,15 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
 
     private int vertexsIndex(K key){
         Integer index = vertexesPosition.get(key);
+
+
         return index == null ? -1 : index;
     }
 
 
     @Override
     public void BFS(K keyVertex) throws exceptionNoVertexExist {
+
         for(K key:vertexs.keySet()){
             Vertex<K,V> vertex = vertexs.get(key);
             vertex.setColor(Color.WHITE);
@@ -198,6 +204,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
     private void DFSVisit(VertexAdjacentList<K,V> vertex, int t){
         time+=1;
         vertex.setDistance(time);
+
         vertex.setColor(Color.GRAY);
         LinkedList<Edge<K,V>> edges = vertex.getEdges();
         for(Edge<K,V> edge : edges){
@@ -247,6 +254,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
     @Override
     public ArrayList<Edge<K, V>> kruskal() {
         if(directed)
+
             throw new UnsupportedOperationException("Kruskal algorithm is not supported for directed graphs");
         ArrayList<Edge<K,V>> mst = new ArrayList<>();
         UnionFind unionFind = new UnionFind(vertexs.size());
@@ -334,7 +342,6 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
 
         return dist;
     }
-
 
 
 }

@@ -15,4 +15,5 @@ public interface IGraph<K extends Comparable<K>,V> {
     void DFS() throws exceptionNoVertexExist;
     ArrayList<Integer> dijkstra(K keyVertexSource) throws exceptionNoVertexExist;
     ArrayList<Edge<K, V>> kruskal() throws exceptionOnGraphTypeNotAllowed;
+
 }
