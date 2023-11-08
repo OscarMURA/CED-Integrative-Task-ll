@@ -74,7 +74,7 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-<<<<<<< HEAD
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -92,8 +92,12 @@
             <artifactId>junit</artifactId>
             <version>4.13.1</version>
         </dependency>
-=======
->>>>>>> d5794d165c8a9660d9a1f800214c7de9f241cd9b
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>21-ea+5</version>
+        </dependency>
+
     </dependencies>
 
     <build>
