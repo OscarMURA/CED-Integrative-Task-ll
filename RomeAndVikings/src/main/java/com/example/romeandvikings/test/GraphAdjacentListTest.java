@@ -78,7 +78,7 @@ public class GraphAdjacentListTest {
         }
     }
 
-    public void setUpGraphWithoutConected(){
+    public void setUpGraphWithoutConnected(){
 
         graph = new GraphAdjacentList(GraphType.SIMPLE);
         graph.addVertex(1, 1);
@@ -202,7 +202,7 @@ public class GraphAdjacentListTest {
     }
 
     @Test
-    public void removeEdgeConectedWithOtherEdgeList(){
+    public void removeEdgeConnectedWithOtherEdgeList(){
         setUpStageSimpleGraph();
         boolean result = false;
         try {
@@ -227,7 +227,7 @@ public class GraphAdjacentListTest {
     }
 
     @Test
-    public void removeEdgeConectedWithOtherEdgeListDirected(){
+    public void removeEdgeConnectedWithOtherEdgeListDirected(){
         setUpStageDirected();
         boolean result = false;
         try {
@@ -287,7 +287,7 @@ public class GraphAdjacentListTest {
     }
 
     @Test
-    public void removeEdgeConectedWithOtherEdgeListNotExist(){
+    public void removeEdgeConnectedWithOtherEdgeListNotExist(){
         setUpStageSimpleGraph();
         boolean result = false;
         try {
@@ -300,7 +300,7 @@ public class GraphAdjacentListTest {
     }
 
     @Test
-    public void removeEdgeConectedWithOtherEdgeListDirectedNotExist(){
+    public void removeEdgeConnectedWithOtherEdgeListDirectedNotExist(){
         setUpStageDirected();
         boolean result = false;
         try {
@@ -351,7 +351,7 @@ public class GraphAdjacentListTest {
 
     @Test
     public void BFSOfGraphWithoutConection(){
-        setUpGraphWithoutConected();
+        setUpGraphWithoutConnected();
         try {
             graph.BFS(1);
         } catch (exceptionNoVertexExist e) {

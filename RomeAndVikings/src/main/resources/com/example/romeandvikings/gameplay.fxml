@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="787.0" prefWidth="1031.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.romeandvikings.controller.GameController">
+
+    <ImageView fitHeight="700.0" fitWidth="668.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@images/mapEurope.png" />
+    </ImageView>
+    <ImageView fitHeight="84.0" fitWidth="85.0" layoutX="395.0" layoutY="517.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@images/romeUnit.png" />
+    </ImageView>
+    <ImageView fitHeight="84.0" fitWidth="113.0" layoutX="447.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@images/vikingUnit.png" />
+    </ImageView>
+
+
+
+    <Label layoutX="697.0" layoutY="26.0" prefHeight="74.0" prefWidth="288.0" text="Reglas de VENGANZA ROMANA" textFill="#ff0606">
+      <font>
+         <Font name="System Italic" size="19.0" />
+      </font></Label>
+
+    <Label fx:id="armyLabel" layoutX="701.0" layoutY="687.0" prefHeight="66.0" prefWidth="313.0" textFill="#fa0020">
+        <font>
+            <Font name="System Bold Italic" size="20.0" />
+        </font></Label>
+
+
+
+    <Button layoutX="14.0" layoutY="703.0" onAction="#attackAction" prefHeight="59.0" prefWidth="126.0" text="ATACAR">
+      <font>
+         <Font size="21.0" />
+      </font></Button>
+    <Button layoutX="163.0" layoutY="703.0" prefHeight="59.0" prefWidth="157.0" text="Algoritmo Dijkstra">
+      <font>
+         <Font size="15.0" />
+      </font></Button>
+    <Button layoutX="336.0" layoutY="703.0" prefHeight="59.0" prefWidth="157.0" text="Algoritmo Prim">
+      <font>
+         <Font size="17.0" />
+      </font></Button>
+    <Button layoutX="518.0" layoutY="703.0" onAction="#surrenderAction" prefHeight="59.0" prefWidth="113.0" text="Rendirse">
+      <font>
+         <Font size="20.0" />
+      </font></Button>
+    <Label layoutX="697.0" layoutY="94.0" prefHeight="465.0" prefWidth="319.0" text="los jugadores asumen el papel de líderes romanos en una misión para conquistar Europa medieval. El juego se desarrolla en un mapa representado por un grafo no dirigido, donde los nodos representan ubicaciones como ciudades, reinos y pueblos, y las aristas representan las rutas que conectan estas ubicaciones.  El objetivo final del jugador es conquistar la base vikinga, ubicada en el punto más alto del mapa. Para lograrlo, el jugador debe avanzar conquistando diferentes territorios a lo largo del camino. Cada territorio conquistado otorga recursos que se pueden utilizar para reclutar soldados y mejorar el equipamiento.  Cuándo usar los Algoritmos:  Algoritmo de Dijkstra: Utilizado para determinar la ruta más eficiente hacia la base vikinga. Sin embargo, esta ruta puede implicar menos puntos y territorios conquistados. El jugador debe decidir si priorizar la eficiencia o la expansión del imperio.  Algoritmo de Prim: Es especialmente útil cuando el jugador se encuentra en una situación complicada, como estar atrapado en un pueblo y enfrentar dificultades para avanzar hacia regiones más avanzadas de Europa. Proporciona orientación sobre cómo adquirir recursos y territorios de manera estratégica, allanando el camino hacia el siguiente conjunto de ubicaciones a explorar.  El uso sabio de estos algoritmos será crucial para el éxito del jugador en su búsqueda de conquista en Venganza Romana. ¡Aprovecha tu conocimiento y estrategia para llevar a Roma hacia la victoria!" wrapText="true" AnchorPane.bottomAnchor="228.0" AnchorPane.leftAnchor="697.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="94.0" />
+
+    <HBox layoutX="1.0" layoutY="654.0" prefHeight="17.0" prefWidth="1031.0" style="-fx-background-color: red;" />
+   <HBox layoutX="680.0" prefHeight="787.0" prefWidth="11.0" style="-fx-background-color: red;" />
+
+
+
+</AnchorPane>

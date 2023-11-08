@@ -9,8 +9,8 @@ module com.example.romeandvikings {
     requires junit;
     opens com.example.romeandvikings to javafx.fxml;
     exports com.example.romeandvikings;
-    exports com.example.romeandvikings.controls;
-    opens com.example.romeandvikings.controls to javafx.fxml;
+    exports com.example.romeandvikings.controller;
+    opens com.example.romeandvikings.controller to javafx.fxml;
     exports com.example.romeandvikings.test;
 
 }
