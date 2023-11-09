@@ -356,7 +356,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         return sb.toString();
     }
 
-    public LinkedList<Edge<K, V>> getEdge(K id, K i) {
+    public LinkedList<Edge<K, V>> getEdge() {
         return edges;
     }
 

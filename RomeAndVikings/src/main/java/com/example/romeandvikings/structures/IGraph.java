@@ -18,6 +18,6 @@ public interface IGraph<K extends Comparable<K>,V> {
     ArrayList<Integer> dijkstra(K keyVertexSource) throws exceptionNoVertexExist;
     ArrayList<Edge<K, V>> kruskal() throws exceptionOnGraphTypeNotAllowed;
 
-    LinkedList<Edge<K, V>> getEdge(K id, K i);
+    LinkedList<Edge<K, V>> getEdge();
 
 }

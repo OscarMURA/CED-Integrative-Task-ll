@@ -44,6 +44,7 @@ public class Map {
         City rome = new City((400), (600), 0);
         map.addVertex(rome.getId(), rome);
         RadioButton radioButton1 = new RadioButton();
+        radioButton1.setStyle("-fx-background-color: #FF0000;");
         radioButton1.setLayoutX(rome.getX());
         radioButton1.setLayoutY(rome.getY());
         radioButton1.setCursor(Cursor.HAND);
@@ -131,7 +132,7 @@ public class Map {
 
         //Todo bien hasta aqui primera zona 1 - 8
 
-        routes[0] = new Route(6, 0, random.nextInt(20) + 1);
+        routes[0] = new Route(6, 0, 20);
         routes[1] = new Route(0, 7, random.nextInt(20) + 1);
         routes[2] = new Route(0, 2, random.nextInt(20) + 1);
         routes[3] = new Route(49, 45, random.nextInt(20) + 1);
@@ -140,9 +141,8 @@ public class Map {
         routes[6] = new Route(2, 1, random.nextInt(20) + 1);
         routes[7] = new Route(2, 3, random.nextInt(20) + 1);
         routes[8] = new Route(5, 4, random.nextInt(20) + 1);
-        routes[9] = new Route(5, 6, random.nextInt(20) + 1);
+        routes[9] = new Route(5, 6, 40);
         routes[10] = new Route(46, 47, random.nextInt(20) + 1);
-
 
         //segunda parte 9 - 15
         routes[11] = new Route(8, 16, random.nextInt(20) + 1);
@@ -240,16 +240,11 @@ public class Map {
         return radioButtons;
     }
 
-    public void setRadioButtons(HashMap<Integer, RadioButton> radioButtons) {
-        this.radioButtons = radioButtons;
-    }
-
     public HashMap<Integer, Line> getLines() {
         return lines;
     }
 
-    public void setLines(HashMap<Integer, Line> lines) {
-        this.lines = lines;
-    }
+
+
 
 }

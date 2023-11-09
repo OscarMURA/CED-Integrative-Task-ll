@@ -246,7 +246,7 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
     }
 
     @Override
-    public LinkedList<Edge<K, V>> getEdge(K id, K i) {
+    public LinkedList<Edge<K, V>> getEdge() {
         return edges;
     }
 
