@@ -9,7 +9,10 @@ import com.example.romeandvikings.structures.Edge;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 
 import java.net.URL;
@@ -40,12 +43,14 @@ public class GameController implements Initializable {
 
     private LinkedList<Edge<Integer, City>> routes;
 
+    @FXML
+    private Button consultDifficulty;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         armyLabel.setText("UNIDADES DISPONIBLES: " + armyRome);
-        difficultyLabel.setText("DIFICULTAD del pueblo: " );
+        difficultyLabel.setText("DIFICULTAD DEL PUEBLO: " );
     }
-
 
     public GameController() {}
 
@@ -59,22 +64,90 @@ public class GameController implements Initializable {
         radioButtonsConquered = new HashMap<>();
     }
 
+    public void attackAction(){
+        setRadioButtonsConquered();
+        if (!checkAmountRadioButtonsSelected())
+            return;
+        int[] selected = selectedAction();
+        int difficulty = validateDirectionOfEdge(selected[0], searchCity(selected[1]));
+        armyRome -= difficulty;
+        armyLabel.setText("UNIDADES DISPONIBLES: " + armyRome);
+        validateVikingDied();
+        if(armyRome < 0.1)
+            surrenderAction();
+    }
+
+    public void consultAction(){
+        setRadioButtonsConquered();
+        if (!checkAmountRadioButtonsSelected())
+            return;
+        for (int i = 0; i < radioButtons.size(); i++) {
+            if(radioButtons.get(i).isSelected() && !radioButtons.get(i).isDisable()){
+                for(int j = 0; j < radioButtonsConquered.size(); j++){
+                    if(searchCity(j) == -1 && j < radioButtonsConquered.size() - 1){
+
+                    } else if(searchCity(j) == -1 && j == radioButtonsConquered.size() - 1) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error en consulta");
+                        alert.setHeaderText(null);
+                        alert.setContentText("No tienes ningun pueblo conquistado cercano a este");
+                        alert.showAndWait();
+                        break;
+                    }else if(validateDirectionOfEdge(i, searchCity(j)) != -1){
+                        difficultyLabel.setText("DIFICULTAD DEL PUEBLO: " + validateDirectionOfEdge(i, searchCity(j)));
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void surrenderAction(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Derrotado");
+        alert.setHeaderText(null);
+        alert.setContentText("Mala decision, Roma ha caido!");
+        alert.showAndWait();
+        System.exit(0);
+    }
+
+    public void dijkstraAction() {
+
+
+    }
+
+    public void primAction(){
+
+    }
+
+    public int validateDirectionOfEdge(int city1, int city2){
+        int[] checkDirections = new int[2];
+        checkDirections[0] = searchRoute(map.getGraph().getVertex(city1).getValue(), map.getGraph().getVertex(city2).getValue());
+        checkDirections[1] = searchRoute(map.getGraph().getVertex(city2).getValue(), map.getGraph().getVertex(city1).getValue());
+        System.out.println(checkDirections[0] + " " + checkDirections[1]);
+        if (checkDirections[0] != -1){
+            return checkDirections[0];
+        } else if (checkDirections[1] != -1){
+            return checkDirections[1];
+        }else {
+            return -1;
+        }
+    }
+
     public int[] selectedAction(){
         int[] selected = new int[2];
         for (int i = 0; i < radioButtons.size(); i++) {
-           if(radioButtons.get(i).isSelected() && !radioButtons.get(i).isDisable()){
-
+            if(radioButtons.get(i).isSelected() && !radioButtons.get(i).isDisable()){
                 for(int j = 0; j < radioButtonsConquered.size(); j++){
-                    if(searchCity(j) == -1){
+                    if(searchCity(j) == -1 && j < radioButtonsConquered.size() - 1){
 
-                    }else if(searchRoute(map.getGraph().getVertex(searchCity(j)).getValue(), map.getGraph().getVertex(i).getValue()) == -1 && j == radioButtonsConquered.size() - 1){
+                    } else if(searchCity(j) == -1 && j == radioButtonsConquered.size() - 1){
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Error en ataque");
                         alert.setHeaderText(null);
-                        alert.setContentText("No hay ruta disponible");
+                        alert.setContentText("No hay ruta disponible porque no tienes ningun pueblo conquistado cercano a este");
                         alert.showAndWait();
-                    }else if(searchRoute(map.getGraph().getVertex(searchCity(searchCity(j))).getValue(), map.getGraph().getVertex(i).getValue()) != -1){
-                        difficultyLabel.setText("DIFICULTAD del pueblo: " + searchRoute(map.getGraph().getVertex(searchCity(j)).getValue(), map.getGraph().getVertex(i).getValue()));
+                    }else if(validateDirectionOfEdge(i, searchCity(j)) != -1){
                         radioButtons.get(i).setDisable(true);
                         radioButtons.get(i).setStyle("-fx-background-color: #FF0000;");
                         selected[0] = i;
@@ -96,19 +169,27 @@ public class GameController implements Initializable {
         return -1;
     }
 
-    public void attackAction(){
-        setRadioButtonsConquered();
-        int[] selected = selectedAction();
-        int difficulty = searchRoute(map.getGraph().getVertex(searchCity(selected[1])).getValue(), map.getGraph().getVertex(selected[0]).getValue());
-        armyRome -= difficulty;
-        armyLabel.setText("UNIDADES DISPONIBLES: " + armyRome);
-        if(armyRome < 0.1)
-            surrenderAction();
+    public boolean checkAmountRadioButtonsSelected(){
+        int count = 0;
+        for (int i = 0; i < radioButtons.size(); i++) {
+            if(radioButtons.get(i).isSelected()){
+                count++;
+            }
+        }
+        if(count > radioButtonsConquered.size() +1){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error en ataque");
+            alert.setHeaderText(null);
+            alert.setContentText("Solo puedes atacar a un pueblo a la vez, por favor deselecciona los demas pueblos y vuelve a intentarlo");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
     }
 
     public void setRadioButtonsConquered(){
         for (int i = 0; i < radioButtons.size(); i++){
-            if(radioButtons.get(i).isSelected()){
+            if(radioButtons.get(i).isSelected() && radioButtons.get(i).isDisable()){
                 radioButtonsConquered.put(i, radioButtons.get(i));
             }
         }
@@ -125,23 +206,28 @@ public class GameController implements Initializable {
 
     }
 
-    public void surrenderAction(){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Derrotado");
-        alert.setHeaderText(null);
-        alert.setContentText("Mala decision, Roma ha caido!");
-        alert.showAndWait();
-        System.exit(0);
+    public void validateVikingDied(){
+        if(radioButtons.get(49).isDisable()){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Victoria");
+            alert.setHeaderText(null);
+            alert.setContentText("FELICIDADES SOLDADO, HAS LOGRADO NUESTRA VENGANZA AL CONQUISTAR A LOS VIKINGOS DEL NORTE, ERES UN ORGULLO!!");
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("D:\\Tercer Semestre\\Discretas\\CED-Integrative-Task-ll\\RomeAndVikings\\src\\main\\resources\\com\\example\\romeandvikings\\images\\romaHelmet.jpg"));
+
+            Label label = new Label();
+            Image imagen = new Image("D:\\Tercer Semestre\\Discretas\\CED-Integrative-Task-ll\\RomeAndVikings\\src\\main\\resources\\com\\example\\romeandvikings\\images\\romeUnit.png");
+            ImageView imageView = new ImageView(imagen);
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(100);
+            label.setGraphic(imageView);
+            alert.getDialogPane().setGraphic(label);
+
+            alert.showAndWait();
+            System.exit(0);
+        }
     }
 
-    public void dijkstraAction() {
-
-
-    }
-
-    public void primAction(){
-
-    }
 
 
 }
