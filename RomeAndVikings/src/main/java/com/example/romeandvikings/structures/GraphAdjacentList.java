@@ -343,5 +343,21 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         return dist;
     }
 
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Vertices:\n");
+        for (Vertex<K, V> vertex : vertexs.values()) {
+            sb.append(vertex.getKey()).append(" ");
+        }
+        sb.append("\n\nEdges:\n");
+        for (Edge<K, V> edge : edges) {
+            sb.append(edge.getStart().getKey()).append(" -> ").append(edge.getDestination().getKey()).append(" (").append(edge.getWeight()).append(")\n");
+        }
+        return sb.toString();
+    }
+
+    public LinkedList<Edge<K, V>> getEdge(K id, K i) {
+        return edges;
+    }
 
 }

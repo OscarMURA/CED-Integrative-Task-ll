@@ -24,4 +24,9 @@ public abstract class Graph <K extends Comparable<K>,V> implements IGraph<K,V>{
         multiple=(type==GraphType.MULTIGRAPH || type==GraphType.MULTIGRAPH_DIRECTED || type==GraphType.PSEUDOGRAPH);
         loops=(type==GraphType.PSEUDOGRAPH || type==GraphType.DIRECTED || type==GraphType.MULTIGRAPH_DIRECTED);
     }
+
+
+
+
+
 }
