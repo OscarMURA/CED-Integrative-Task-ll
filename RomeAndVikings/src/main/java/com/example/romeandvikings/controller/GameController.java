@@ -68,39 +68,40 @@ public class GameController implements Initializable {
 
     public void attackAction(){
         setRadioButtonsConquered();
-        if (!checkAmountRadioButtonsSelected())
-            return;
-        int[] selected = selectedAction();
-        int difficulty = validateDirectionOfEdge(selected[0], searchCity(selected[1]));
-        armyRome -= difficulty;
-        armyLabel.setText("UNIDADES DISPONIBLES: " + armyRome);
-        validateVikingDied();
-        if(armyRome < 0.1)
-            surrenderAction();
+        if (checkAmountRadioButtonsSelected()){
+            int[] selected = selectedAction();
+            int difficulty = validateDirectionOfEdge(selected[0], searchCity(selected[1]));
+            armyRome -= difficulty;
+            armyLabel.setText("UNIDADES DISPONIBLES: " + armyRome);
+            validateVikingDied();
+            if(armyRome < 0.1)
+                surrenderAction();
+        }
     }
 
     public void consultAction(){
-        setRadioButtonsConquered();
-        if (!checkAmountRadioButtonsSelected())
-            return;
-        for (int i = 0; i < radioButtons.size(); i++) {
-            if(radioButtons.get(i).isSelected() && !radioButtons.get(i).isDisable()){
-                for(int j = 0; j < radioButtonsConquered.size(); j++){
-                    if(searchCity(j) == -1 && j < radioButtonsConquered.size() - 1){
+        if (checkAmountRadioButtonsSelected()){
+            setRadioButtonsConquered();
+            for (int i = 0; i < radioButtons.size(); i++) {
+                if(radioButtons.get(i).isSelected() && !radioButtons.get(i).isDisable()){
+                    for(int j = 0; j < radioButtonsConquered.size(); j++){
+                        if(searchCity(j) == -1 && j < radioButtonsConquered.size() - 1){
 
-                    } else if(validateDirectionOfEdge(i, searchCity(j)) == -1 && j == radioButtonsConquered.size() - 1) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error en consulta");
-                        alert.setHeaderText(null);
-                        alert.setContentText("No tienes ningun pueblo conquistado cercano a este");
-                        alert.showAndWait();
-                        break;
-                    }else if(validateDirectionOfEdge(i, searchCity(j)) != -1){
-                        difficultyLabel.setText("DIFICULTAD DEL PUEBLO: " + validateDirectionOfEdge(i, searchCity(j)));
-                        break;
+                        } else if(validateDirectionOfEdge(i, searchCity(j)) == -1 && j == radioButtonsConquered.size() - 1) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error en consulta");
+                            alert.setHeaderText(null);
+                            alert.setContentText("No tienes ningun pueblo conquistado cercano a este");
+                            alert.showAndWait();
+                            break;
+                        }else if(validateDirectionOfEdge(i, searchCity(j)) != -1){
+                            difficultyLabel.setText("DIFICULTAD DEL PUEBLO: " + validateDirectionOfEdge(i, searchCity(j)));
+                            break;
+                        }
                     }
                 }
             }
+
         }
     }
 
@@ -173,15 +174,22 @@ public class GameController implements Initializable {
     public boolean checkAmountRadioButtonsSelected(){
         int count = 0;
         for (int i = 0; i < radioButtons.size(); i++) {
-            if(radioButtons.get(i).isSelected()){
+            if(radioButtons.get(i).isSelected() && !radioButtons.get(i).isDisable()){
                 count++;
             }
         }
-        if(count > radioButtonsConquered.size() +1){
+        if(count == 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error en ataque");
             alert.setHeaderText(null);
-            alert.setContentText("Solo puedes atacar a un pueblo a la vez, por favor deselecciona los demas pueblos y vuelve a intentarlo");
+            alert.setContentText("Por favor selecciona un pueblo para atacar");
+            alert.showAndWait();
+            return false;
+        } else if(count > 1){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error en ataque");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor selecciona solo un pueblo para atacar");
             alert.showAndWait();
             return false;
         }
