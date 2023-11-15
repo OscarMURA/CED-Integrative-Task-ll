@@ -258,8 +258,14 @@ public class GameController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Victoria");
             alert.setHeaderText(null);
-            int score = armyRome * 5 + conquered * 100;
-            alert.setContentText("FELICIDADES SOLDADO, HAS LOGRADO NUESTRA VENGANZA AL CONQUISTAR A LOS VIKINGOS DEL NORTE, ERES UN ORGULLO!! \n Tu puntaje final ha sido de: " + score + " puntos \n por tus " + armyRome + " unidades restantes y " + conquered + " pueblos conquistados" );
+            int villages = 0;
+            for (int i = 0; i < radioButtons.size(); i++){
+                if(radioButtons.get(i).isSelected() && radioButtons.get(i).isDisable()){
+                    villages++;
+                }
+            }
+            int score = armyRome * 5 + villages * 50;
+            alert.setContentText("FELICIDADES SOLDADO, HAS LOGRADO NUESTRA VENGANZA AL CONQUISTAR A LOS VIKINGOS DEL NORTE, ERES UN ORGULLO!! \n Tu puntaje final ha sido de: " + score + " puntos \n por tus " + armyRome + " unidades restantes y " + villages + " pueblos conquistados" );
             Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
             stage.getIcons().add(new Image("D:\\Tercer Semestre\\Discretas\\CED-Integrative-Task-ll\\RomeAndVikings\\src\\main\\resources\\com\\example\\romeandvikings\\images\\romaHelmet.jpg"));
 
