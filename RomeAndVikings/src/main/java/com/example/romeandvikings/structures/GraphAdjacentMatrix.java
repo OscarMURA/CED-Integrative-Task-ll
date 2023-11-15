@@ -226,6 +226,49 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
     }
 
     @Override
+    public ArrayList<Integer> shortestPath(K startNode, K endNode) throws exceptionNoVertexExist {
+        if (!vertexs.containsKey(startNode) || !vertexs.containsKey(endNode)) {
+            throw new exceptionNoVertexExist("No se encontró un nodo.");
+        }
+        for (Vertex<K, V> vertex : vertexs.values()) {
+            if (vertex.getKey().compareTo(startNode) != 0) {
+                vertex.setDistance(INFINITE);
+            }
+            vertex.setPredecessor(null);
+        }
+        vertexs.get(startNode).setDistance(0);
+        PriorityQueue<Vertex<K, V>> queue = new PriorityQueue<>(Comparator.comparingInt(Vertex::getDistance));
+        for (Vertex<K, V> vertex : vertexs.values()) {
+            queue.offer(vertex);
+        }
+        while (!queue.isEmpty()) {
+            Vertex<K, V> u = queue.poll();
+            for (Vertex<K, V> v : vertexs.values()) {
+                if (adjacent(u.getKey(), v.getKey())) {
+                    int weight = matrix[indexVertex(u.getKey())][indexVertex(v.getKey())].get(0) + u.getDistance();
+                    if (weight < v.getDistance()) {
+                        v.setDistance(weight);
+                        v.setPredecessor(u);
+                        queue.offer(v);
+                    }
+                }
+            }
+        }
+
+        ArrayList<Integer> shortestPath = new ArrayList<>();
+        Vertex<K, V> currentNode = vertexs.get(endNode);
+        while (currentNode != null && !currentNode.getKey().equals(startNode)) {
+            shortestPath.add((Integer)currentNode.getKey());
+            currentNode = currentNode.getPredecessor();
+        }
+        shortestPath.add((Integer) startNode);
+        Collections.reverse(shortestPath);
+
+        return shortestPath;
+    }
+
+
+    @Override
     public ArrayList<Edge<K, V>> kruskal() throws exceptionOnGraphTypeNotAllowed {
         if(directed) throw new exceptionOnGraphTypeNotAllowed("be not undirected. ");
 

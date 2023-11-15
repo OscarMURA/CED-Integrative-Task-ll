@@ -6,12 +6,15 @@ import com.example.romeandvikings.model.City;
 import com.example.romeandvikings.model.Implementation;
 import com.example.romeandvikings.model.Map;
 import com.example.romeandvikings.structures.Edge;
+import com.example.romeandvikings.structures.GraphAdjacentMatrix;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 
@@ -112,7 +115,7 @@ public class GameController implements Initializable {
         System.exit(0);
     }
 
-    public void dijkstraAction() throws exceptionNoVertexExist {
+    public void dijkstraAction() {
         int romeNode = 0;
         int vikings = 49;
 
@@ -120,7 +123,12 @@ public class GameController implements Initializable {
 
             ArrayList<Integer> distances = map.getGraph().dijkstra(romeNode);
             for (int i = 0; i < distances.size(); i++) {
-                radioButtons.get(i).setText(String.valueOf(distances.get(i)));
+                    radioButtons.get(i).setText(String.valueOf(distances.get(i)));
+            }
+
+            ArrayList<Integer> path = map.getGraph().shortestPath(romeNode, vikings);
+            for (int i = 0; i < path.size(); i++) {
+                radioButtons.get(path.get(i)).setStyle("-fx-background-color: #0b41f1;");
             }
 
 
@@ -129,10 +137,28 @@ public class GameController implements Initializable {
         }
     }
 
-    public void primAction(){
+    public void primAction() throws exceptionOnGraphTypeNotAllowed {
+        try {
+            ArrayList<Edge<Integer, City>> minimumSpanningTree = map.getGraph().kruskal();
+            HashMap<Integer, Line> lines = map.getLines();
 
+            int count = 0;
+            for (Edge<Integer, City> edge : minimumSpanningTree) {
+                if (count >= 10) break;
+
+                int startNode = edge.getStart().getKey();
+                int endNode = edge.getDestination().getKey();
+
+                Line line = lines.get(startNode + endNode);
+                line.setStroke(Color.RED);
+                line.setStrokeWidth(3);
+
+                count++;
+            }
+        } catch (UnsupportedOperationException e) {
+            e.printStackTrace();
+        }
     }
-
 
     public int validateDirectionOfEdge(int city1, int city2){
         int[] checkDirections = new int[2];
@@ -232,7 +258,8 @@ public class GameController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Victoria");
             alert.setHeaderText(null);
-            alert.setContentText("FELICIDADES SOLDADO, HAS LOGRADO NUESTRA VENGANZA AL CONQUISTAR A LOS VIKINGOS DEL NORTE, ERES UN ORGULLO!!");
+            int score = armyRome * 5 + conquered * 100;
+            alert.setContentText("FELICIDADES SOLDADO, HAS LOGRADO NUESTRA VENGANZA AL CONQUISTAR A LOS VIKINGOS DEL NORTE, ERES UN ORGULLO!! \n Tu puntaje final ha sido de: " + score + " puntos \n por tus " + armyRome + " unidades restantes y " + conquered + " pueblos conquistados" );
             Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
             stage.getIcons().add(new Image("D:\\Tercer Semestre\\Discretas\\CED-Integrative-Task-ll\\RomeAndVikings\\src\\main\\resources\\com\\example\\romeandvikings\\images\\romaHelmet.jpg"));
 

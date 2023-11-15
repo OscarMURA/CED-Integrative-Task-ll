@@ -226,8 +226,6 @@ public class Map {
 
             line.setStrokeWidth(1.5);
             lines.put(route.getCityA() + route.getCityB(), line);
-
-
         }
 
     }
