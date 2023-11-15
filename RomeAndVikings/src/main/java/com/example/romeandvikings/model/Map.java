@@ -130,8 +130,6 @@ public class Map {
 
         Route[] routes = new Route[57]; //57
 
-        //Todo bien hasta aqui primera zona 1 - 8
-
         routes[0] = new Route(6, 0, random.nextInt(20) + 1);
         routes[1] = new Route(0, 7, random.nextInt(20) + 1);
         routes[2] = new Route(0, 2, random.nextInt(20) + 1);

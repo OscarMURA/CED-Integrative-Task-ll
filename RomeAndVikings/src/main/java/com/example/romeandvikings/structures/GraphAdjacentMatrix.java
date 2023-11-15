@@ -6,32 +6,33 @@ import com.example.romeandvikings.exceptions.exceptionOnGraphTypeNotAllowed;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
+public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> {
 
-    private HashMap<K,Vertex<K,V>> vertexs;
+    private HashMap<K, Vertex<K, V>> vertexs;
     private ArrayList<Integer>[][] matrix;
 
-    public GraphAdjacentMatrix(int vertexNumber,GraphType type){
+    public GraphAdjacentMatrix(int vertexNumber, GraphType type) {
         super(type);
         vertexs = new HashMap<>();
         matrix = new ArrayList[vertexNumber][vertexNumber];
-        int i=0;
-        do{
-            int j=0;
+        int i = 0;
+        do {
+            int j = 0;
 
-            do{
-                matrix[i][j] = new ArrayList<>();j++;
-            }while(j<vertexNumber);
+            do {
+                matrix[i][j] = new ArrayList<>();
+                j++;
+            } while (j < vertexNumber);
             i++;
-        }while(i<vertexNumber);
+        } while (i < vertexNumber);
     }
 
 
     @Override
-    public boolean addVertex(K key, V value)  {
-        if(!vertexs.containsKey(key)){
-            vertexs.put(key,new Vertex<>(key,value));
-            vertexesPosition.put(key,numberVertexsCurrent++);
+    public boolean addVertex(K key, V value) {
+        if (!vertexs.containsKey(key)) {
+            vertexs.put(key, new Vertex<>(key, value));
+            vertexesPosition.put(key, numberVertexsCurrent++);
             return true;
         }
         return false;
@@ -40,72 +41,74 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
 
     @Override
     public boolean removeVertex(K key) {
-        Vertex<K,V> vertex = vertexs.remove(key);
-        if(vertex != null){
-            int index= indexVertex(key);
+        Vertex<K, V> vertex = vertexs.remove(key);
+        if (vertex != null) {
+            int index = indexVertex(key);
 
-            int i=0;
-            do{
+            int i = 0;
+            do {
                 matrix[index][i].clear();
                 matrix[i][index].clear();
                 i++;
-            }while(i<matrix.length);
+            } while (i < matrix.length);
             return true;
         }
         return false;
     }
 
-    private int indexVertex(K key){
+    private int indexVertex(K key) {
         Integer index = vertexesPosition.get(key);
 
         return index == null ? -1 : index;
     }
+
     @Override
     public Vertex<K, V> getVertex(K key) {
         return vertexs.get(key);
     }
-    public void vertexsExist(K key1,K key2) throws exceptionNoVertexExist {
-        if(!vertexs.containsKey(key1)){
+
+    public void vertexsExist(K key1, K key2) throws exceptionNoVertexExist {
+        if (!vertexs.containsKey(key1)) {
             throw new exceptionNoVertexExist(key1.toString());
         }
-        if(!vertexs.containsKey(key2)){
+        if (!vertexs.containsKey(key2)) {
             throw new exceptionNoVertexExist(key2.toString());
         }
     }
 
     @Override
     public boolean addEdge(K key1, K key2, int weight) throws exceptionNoVertexExist, exceptionOnGraphTypeNotAllowed {
-        vertexsExist(key1,key2);
+        vertexsExist(key1, key2);
         int vertex1 = indexVertex(key1);
         int vertex2 = indexVertex(key2);
-        if(!loops && vertex1 == vertex2){
+        if (!loops && vertex1 == vertex2) {
             throw new exceptionOnGraphTypeNotAllowed("Loops");
         }
-        if(!multiple && matrix[vertex1][vertex2].size() > 0){
+        if (!multiple && matrix[vertex1][vertex2].size() > 0) {
             throw new exceptionOnGraphTypeNotAllowed("Multiple Edges");
         }
         matrix[vertex1][vertex2].add(weight);
         Collections.sort(matrix[vertex1][vertex2]);
-        edges.add(new Edge<>(vertexs.get(key1),vertexs.get(key2),weight));
-        if(!directed){
+        edges.add(new Edge<>(vertexs.get(key1), vertexs.get(key2), weight));
+        if (!directed) {
 
             matrix[vertex2][vertex1].add(weight);
             Collections.sort(matrix[vertex2][vertex1]);
-            edges.add(new Edge<>(vertexs.get(key2),vertexs.get(key1),weight));
+            edges.add(new Edge<>(vertexs.get(key2), vertexs.get(key1), weight));
         }
         return true;
     }
 
     @Override
     public boolean removeEdge(K key1, K key2) throws exceptionNoVertexExist {
-        vertexsExist(key1,key2);
+        vertexsExist(key1, key2);
         int vertex1 = indexVertex(key1);
         int vertex2 = indexVertex(key2);
 
-        if(matrix[vertex1][vertex2].size() > 0){
+        if (matrix[vertex1][vertex2].size() > 0) {
             matrix[vertex1][vertex2].remove(0);
             // Primero, eliminar las aristas según el criterio
-            for (Iterator<Edge<K, V>> iterator = edges.iterator(); iterator.hasNext();) {
+            for (Iterator<Edge<K, V>> iterator = edges.iterator(); iterator.hasNext(); ) {
                 Edge edge = iterator.next();
                 if (edge.getStart().getKey().compareTo(key1) == 0 && edge.getDestination().getKey().compareTo(key2) == 0) {
                     iterator.remove();
@@ -115,7 +118,7 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
 
                 // Si el grafo no es dirigido, también eliminamos la arista inversa
                 matrix[vertex2][vertex1].remove(0);
-                for (Iterator<Edge<K, V>> iterator = edges.iterator(); iterator.hasNext();) {
+                for (Iterator<Edge<K, V>> iterator = edges.iterator(); iterator.hasNext(); ) {
                     Edge edge = iterator.next();
                     if (edge.getStart().getKey().compareTo(key2) == 0 && edge.getDestination().getKey().compareTo(key1) == 0) {
                         iterator.remove();
@@ -129,29 +132,29 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
 
     @Override
     public boolean adjacent(K keyVertex1, K keyVertex2) throws exceptionNoVertexExist {
-        vertexsExist(keyVertex1,keyVertex2);
+        vertexsExist(keyVertex1, keyVertex2);
         return matrix[indexVertex(keyVertex1)][indexVertex(keyVertex2)].size() > 0;
 
     }
 
     @Override
     public void BFS(K keyVertex) throws exceptionNoVertexExist {
-        for (Vertex<K,V> vertex: vertexs.values()) {
+        for (Vertex<K, V> vertex : vertexs.values()) {
             vertex.setColor(Color.WHITE);
             vertex.setDistance(INFINITE);
             vertex.setPredecessor(null);
         }
-        Vertex<K,V> vertex = vertexs.get(keyVertex);
+        Vertex<K, V> vertex = vertexs.get(keyVertex);
         vertex.setColor(Color.GRAY);
         vertex.setDistance(0);
-        Queue<Vertex<K,V>> queue = new LinkedList<>();
+        Queue<Vertex<K, V>> queue = new LinkedList<>();
         queue.offer(vertex);
-        while (!queue.isEmpty()){
-            Vertex<K,V> u = queue.poll();
-            for(Vertex<K,V> v: vertexs.values()) {
-                if(adjacent(u.getKey(),v.getKey()) && v.getColor() == Color.WHITE){
+        while (!queue.isEmpty()) {
+            Vertex<K, V> u = queue.poll();
+            for (Vertex<K, V> v : vertexs.values()) {
+                if (adjacent(u.getKey(), v.getKey()) && v.getColor() == Color.WHITE) {
                     v.setColor(Color.GRAY);
-                    v.setDistance(u.getDistance()+1);
+                    v.setDistance(u.getDistance() + 1);
                     v.setPredecessor(u);
                     queue.offer(v);
 
@@ -164,24 +167,24 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
 
     @Override
     public void DFS() throws exceptionNoVertexExist {
-        for (Vertex<K,V> vertex: vertexs.values()) {
+        for (Vertex<K, V> vertex : vertexs.values()) {
             vertex.setColor(Color.WHITE);
             vertex.setPredecessor(null);
         }
         time = 0;
-        for (Vertex<K,V> vertex: vertexs.values()) {
-            if(vertex.getColor() == Color.WHITE){
+        for (Vertex<K, V> vertex : vertexs.values()) {
+            if (vertex.getColor() == Color.WHITE) {
                 DFS(vertex);
             }
         }
     }
 
-    private void DFS(Vertex<K,V> vertex) throws exceptionNoVertexExist {
+    private void DFS(Vertex<K, V> vertex) throws exceptionNoVertexExist {
         time++;
         vertex.setDiscoveryTime(time);
         vertex.setColor(Color.GRAY);
-        for(Vertex<K,V> v: vertexs.values()) {
-            if(adjacent(vertex.getKey(),v.getKey()) && v.getColor() == Color.WHITE){
+        for (Vertex<K, V> v : vertexs.values()) {
+            if (adjacent(vertex.getKey(), v.getKey()) && v.getColor() == Color.WHITE) {
                 v.setPredecessor(vertex);
                 DFS(v);
             }
@@ -190,7 +193,6 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
         time++;
         vertex.setFinishTime(time);
     }
-
 
     @Override
     public ArrayList<Integer> dijkstra(K keyVertexSource) throws exceptionNoVertexExist {
@@ -209,10 +211,12 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
         }
         while (!queue.isEmpty()){
             Vertex<K,V> u = queue.poll();
+
             for(Vertex<K,V> v: vertexs.values()) {
+
                 if(adjacent(u.getKey(),v.getKey())) {
-                    int weight = matrix[indexVertex(u.getKey())][indexVertex(v.getKey())].get(0)+u.getDistance();
-                    if(weight < v.getDistance()){
+                    int weight =u.getDistance()+matrix[indexVertex(u.getKey())][indexVertex(v.getKey())].get(0);
+                    if(weight < v.getDistance() || v.getDistance() < -100){
                         v.setDistance(weight);
                         v.setPredecessor(u);
                         queue.offer(v);
@@ -221,10 +225,8 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
                 }
             }
         }
-
         return vertexs.values().stream().map(Vertex::getDistance).collect(Collectors.toCollection(ArrayList::new));
     }
-
     @Override
     public ArrayList<Integer> shortestPath(K startNode, K endNode) throws exceptionNoVertexExist {
         if (!vertexs.containsKey(startNode) || !vertexs.containsKey(endNode)) {

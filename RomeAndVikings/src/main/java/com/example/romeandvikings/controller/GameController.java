@@ -30,6 +30,9 @@ public class GameController implements Initializable {
 
     private int conquered = 0;
 
+    boolean helpMethod1 = false;
+    boolean helpMethod2 = false;
+
     @FXML
     private AnchorPane mainScreen;
 
@@ -75,8 +78,10 @@ public class GameController implements Initializable {
             armyRome -= difficulty;
             armyLabel.setText("UNIDADES DISPONIBLES: " + armyRome);
             validateVikingDied();
-            if(armyRome < 0.1)
+            if(armyRome < 0.1){
+                armyLabel.setText("UNIDADES DISPONIBLES: " + 0);
                 surrenderAction();
+            }
         }
     }
 
@@ -116,6 +121,7 @@ public class GameController implements Initializable {
     }
 
     public void dijkstraAction() {
+        helpMethod2 = true;
         int romeNode = 0;
         int vikings = 49;
 
@@ -138,6 +144,7 @@ public class GameController implements Initializable {
     }
 
     public void primAction() throws exceptionOnGraphTypeNotAllowed {
+        helpMethod1 = true;
         try {
             ArrayList<Edge<Integer, City>> minimumSpanningTree = map.getGraph().kruskal();
             HashMap<Integer, Line> lines = map.getLines();
@@ -264,7 +271,15 @@ public class GameController implements Initializable {
                     villages++;
                 }
             }
-            int score = armyRome * 5 + villages * 50;
+            int score = (armyRome * 5 + villages * 50);
+            if(helpMethod2 && helpMethod1){
+                score -= 250;
+            }
+            else if(helpMethod1){
+                score -= 100;
+            }else if(helpMethod2){
+                score -= 200;
+            }
             alert.setContentText("FELICIDADES SOLDADO, HAS LOGRADO NUESTRA VENGANZA AL CONQUISTAR A LOS VIKINGOS DEL NORTE, ERES UN ORGULLO!! \n Tu puntaje final ha sido de: " + score + " puntos \n por tus " + armyRome + " unidades restantes y " + villages + " pueblos conquistados" );
             Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
             stage.getIcons().add(new Image("D:\\Tercer Semestre\\Discretas\\CED-Integrative-Task-ll\\RomeAndVikings\\src\\main\\resources\\com\\example\\romeandvikings\\images\\romaHelmet.jpg"));
