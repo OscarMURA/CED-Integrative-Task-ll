@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
@@ -44,9 +45,6 @@ public class GameController implements Initializable {
     private HashMap<Integer, RadioButton> radioButtonsConquered;
 
     private LinkedList<Edge<Integer, City>> routes;
-
-    @FXML
-    private Button consultDifficulty;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -114,14 +112,27 @@ public class GameController implements Initializable {
         System.exit(0);
     }
 
-    public void dijkstraAction() {
+    public void dijkstraAction() throws exceptionNoVertexExist {
+        int romeNode = 0;
+        int vikings = 49;
+
+        try {
+
+            ArrayList<Integer> distances = map.getGraph().dijkstra(romeNode);
+            for (int i = 0; i < distances.size(); i++) {
+                radioButtons.get(i).setText(String.valueOf(distances.get(i)));
+            }
 
 
+        } catch (exceptionNoVertexExist e) {
+            e.printStackTrace();
+        }
     }
 
     public void primAction(){
 
     }
+
 
     public int validateDirectionOfEdge(int city1, int city2){
         int[] checkDirections = new int[2];
