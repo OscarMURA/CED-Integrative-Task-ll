@@ -24,6 +24,8 @@ public class GameController implements Initializable {
 
     private Map map;
 
+    private int conquered = 0;
+
     @FXML
     private AnchorPane mainScreen;
 
@@ -86,7 +88,7 @@ public class GameController implements Initializable {
                 for(int j = 0; j < radioButtonsConquered.size(); j++){
                     if(searchCity(j) == -1 && j < radioButtonsConquered.size() - 1){
 
-                    } else if(searchCity(j) == -1 && j == radioButtonsConquered.size() - 1) {
+                    } else if(validateDirectionOfEdge(i, searchCity(j)) == -1 && j == radioButtonsConquered.size() - 1) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Error en consulta");
                         alert.setHeaderText(null);
@@ -124,7 +126,6 @@ public class GameController implements Initializable {
         int[] checkDirections = new int[2];
         checkDirections[0] = searchRoute(map.getGraph().getVertex(city1).getValue(), map.getGraph().getVertex(city2).getValue());
         checkDirections[1] = searchRoute(map.getGraph().getVertex(city2).getValue(), map.getGraph().getVertex(city1).getValue());
-        System.out.println(checkDirections[0] + " " + checkDirections[1]);
         if (checkDirections[0] != -1){
             return checkDirections[0];
         } else if (checkDirections[1] != -1){
@@ -141,7 +142,7 @@ public class GameController implements Initializable {
                 for(int j = 0; j < radioButtonsConquered.size(); j++){
                     if(searchCity(j) == -1 && j < radioButtonsConquered.size() - 1){
 
-                    } else if(searchCity(j) == -1 && j == radioButtonsConquered.size() - 1){
+                    } else if(validateDirectionOfEdge(i, searchCity(j)) == -1 && j == radioButtonsConquered.size() - 1){
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Error en ataque");
                         alert.setHeaderText(null);
@@ -160,7 +161,7 @@ public class GameController implements Initializable {
         return selected;
     }
 
-    public int searchCity(int conquered){
+    public int searchCity(int conquered) {
         for (int i = 0; i < radioButtons.size(); i++) {
             if(radioButtons.get(i).equals(radioButtonsConquered.get(conquered))){
                 return i;
@@ -190,7 +191,8 @@ public class GameController implements Initializable {
     public void setRadioButtonsConquered(){
         for (int i = 0; i < radioButtons.size(); i++){
             if(radioButtons.get(i).isSelected() && radioButtons.get(i).isDisable()){
-                radioButtonsConquered.put(i, radioButtons.get(i));
+                radioButtonsConquered.put(conquered, radioButtons.get(i));
+                conquered++;
             }
         }
     }

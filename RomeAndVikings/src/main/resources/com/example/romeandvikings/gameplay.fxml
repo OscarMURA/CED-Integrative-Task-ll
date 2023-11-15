@@ -10,7 +10,7 @@
     <ImageView fitHeight="700.0" fitWidth="668.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@images/mapEurope.png" />
     </ImageView>
-    <ImageView fitHeight="46.0" fitWidth="57.0" layoutX="427.0" layoutY="608.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fitHeight="66.0" fitWidth="67.0" layoutX="400.0" layoutY="587.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@images/romeUnit.png" />
     </ImageView>
     <ImageView fitHeight="84.0" fitWidth="113.0" layoutX="447.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
@@ -27,7 +27,7 @@
             <Font name="System Bold Italic" size="20.0" />
         </font></Label>
 
-    <Button fx:id="consultDifficulty" onAction="#consultAction" layoutX="711.0" layoutY="650.0" mnemonicParsing="false" text="Consultar" />
+    <Button fx:id="consultDifficulty" layoutX="711.0" layoutY="650.0" mnemonicParsing="false" onAction="#consultAction" text="Consultar" />
 
     <Button layoutX="14.0" layoutY="703.0" onAction="#attackAction" prefHeight="59.0" prefWidth="126.0" text="ATACAR">
       <font>

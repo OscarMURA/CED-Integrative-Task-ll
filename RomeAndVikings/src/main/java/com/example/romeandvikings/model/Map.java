@@ -128,11 +128,11 @@ public class Map {
     public void addRoutes() throws exceptionNoVertexExist, exceptionOnGraphTypeNotAllowed {
         Random random = new Random();
 
-        Route[] routes = new Route[57];
+        Route[] routes = new Route[57]; //57
 
         //Todo bien hasta aqui primera zona 1 - 8
 
-        routes[0] = new Route(6, 0, 20);
+        routes[0] = new Route(6, 0, random.nextInt(20) + 1);
         routes[1] = new Route(0, 7, random.nextInt(20) + 1);
         routes[2] = new Route(0, 2, random.nextInt(20) + 1);
         routes[3] = new Route(49, 45, random.nextInt(20) + 1);
@@ -141,7 +141,7 @@ public class Map {
         routes[6] = new Route(2, 1, random.nextInt(20) + 1);
         routes[7] = new Route(2, 3, random.nextInt(20) + 1);
         routes[8] = new Route(5, 4, random.nextInt(20) + 1);
-        routes[9] = new Route(5, 6, 40);
+        routes[9] = new Route(5, 6, random.nextInt(20) + 1);
         routes[10] = new Route(46, 47, random.nextInt(20) + 1);
 
         //segunda parte 9 - 15
