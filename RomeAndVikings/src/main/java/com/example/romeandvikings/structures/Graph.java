@@ -17,7 +17,7 @@ public abstract class Graph <K extends Comparable<K>,V> implements IGraph<K,V>{
         time = 0;
         vertexesPosition = new HashMap<>();
         numberVertexsCurrent = 0;
-        INFINITE = Integer.MAX_VALUE;
+        INFINITE = Integer.MAX_VALUE-100;
         selectType(type);
     }
 
