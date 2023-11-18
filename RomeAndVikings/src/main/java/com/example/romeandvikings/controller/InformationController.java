@@ -50,7 +50,7 @@ public class InformationController {
         Stage newStage = new Stage();
         try {
             newStage.setTitle(stageTitle);
-            newStage.getIcons().add(new Image("file:D:/Tercer Semestre/Discretas/CED-Integrative-Task-ll/RomeAndVikings/src/main/resources/com/example/romeandvikings/images/romaHelmet.jpg"));
+            newStage.getIcons().add(new Image("file:" + (RomeApplication.class.getResource("images/romaHelmet.jpg")).getPath()));
             rootNode = fxmlLoader.load();
             newStage.setScene(new Scene(rootNode));
             newStage.show();

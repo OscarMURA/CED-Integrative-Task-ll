@@ -1,5 +1,6 @@
 package com.example.romeandvikings.controller;
 
+import com.example.romeandvikings.RomeApplication;
 import com.example.romeandvikings.exceptions.exceptionNoVertexExist;
 import com.example.romeandvikings.exceptions.exceptionOnGraphTypeNotAllowed;
 import com.example.romeandvikings.model.City;
@@ -115,6 +116,8 @@ public class GameController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Derrotado");
         alert.setHeaderText(null);
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("file:" + (RomeApplication.class.getResource("images/romaHelmet.jpg")).getPath()));
         alert.setContentText("Mala decision, Roma ha caido!");
         alert.showAndWait();
         System.exit(0);
@@ -282,10 +285,10 @@ public class GameController implements Initializable {
             }
             alert.setContentText("FELICIDADES SOLDADO, HAS LOGRADO NUESTRA VENGANZA AL CONQUISTAR A LOS VIKINGOS DEL NORTE, ERES UN ORGULLO!! \n Tu puntaje final ha sido de: " + score + " puntos \n por tus " + armyRome + " unidades restantes y " + villages + " pueblos conquistados" );
             Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-            stage.getIcons().add(new Image("D:\\Tercer Semestre\\Discretas\\CED-Integrative-Task-ll\\RomeAndVikings\\src\\main\\resources\\com\\example\\romeandvikings\\images\\romaHelmet.jpg"));
+            stage.getIcons().add(new Image("file:" + (RomeApplication.class.getResource("images/romaHelmet.jpg")).getPath()));
 
             Label label = new Label();
-            Image imagen = new Image("D:\\Tercer Semestre\\Discretas\\CED-Integrative-Task-ll\\RomeAndVikings\\src\\main\\resources\\com\\example\\romeandvikings\\images\\romeUnit.png");
+            Image imagen = new Image("file:" + (RomeApplication.class.getResource("images/romeUnit.png")).getPath());
             ImageView imageView = new ImageView(imagen);
             imageView.setFitWidth(100);
             imageView.setFitHeight(100);
