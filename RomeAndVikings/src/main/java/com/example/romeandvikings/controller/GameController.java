@@ -146,7 +146,7 @@ public class GameController implements Initializable {
         }
     }
 
-    public void primAction() throws exceptionOnGraphTypeNotAllowed {
+    public void kruskalAction() throws exceptionOnGraphTypeNotAllowed {
         helpMethod1 = true;
         try {
             ArrayList<Edge<Integer, City>> minimumSpanningTree = map.getGraph().kruskal();
