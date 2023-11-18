@@ -3,7 +3,7 @@ package com.example.romeandvikings.test;
 import com.example.romeandvikings.exceptions.exceptionNoVertexExist;
 import com.example.romeandvikings.exceptions.exceptionOnGraphTypeNotAllowed;
 import com.example.romeandvikings.structures.Color;
-import com.example.romeandvikings.structures.GraphAdjacentList;
+import com.example.romeandvikings.structures.GraphAdjacentMatrix;
 import com.example.romeandvikings.structures.GraphType;
 import org.junit.Test;
 
@@ -13,11 +13,11 @@ import java.util.Arrays;
 import static org.junit.Assert.*;
 
 
-public class GraphAdjacentListTest {
-    private GraphAdjacentList<Integer, Integer> graph;
+public class GraphAdjacentMatrixTest {
+    private GraphAdjacentMatrix<Integer, Integer> graph;
 
     public void setUpStageSimpleGraph(){
-        graph = new GraphAdjacentList(GraphType.SIMPLE);
+        graph = new GraphAdjacentMatrix(50,GraphType.SIMPLE);
         try {
             graph.addVertex(1, 1);
             graph.addVertex(2, 2);
@@ -39,7 +39,7 @@ public class GraphAdjacentListTest {
     }
 
     public void setUpStageDirected(){
-        graph = new GraphAdjacentList(GraphType.DIRECTED);
+        graph = new GraphAdjacentMatrix(50,GraphType.DIRECTED);
         try {
             graph.addVertex(1, 1);
             graph.addVertex(2, 2);
@@ -78,13 +78,13 @@ public class GraphAdjacentListTest {
             graph.addEdge(2, 9, 9);
             graph.addEdge(8, 7, 1);
         }catch (exceptionNoVertexExist | exceptionOnGraphTypeNotAllowed e) {
-        fail("Exception no expected");
+            fail("Exception no expected");
         }
     }
 
     public void setUpGraphWithoutConected(){
 
-        graph = new GraphAdjacentList(GraphType.SIMPLE);
+        graph = new GraphAdjacentMatrix(50,GraphType.SIMPLE);
         graph.addVertex(1, 1);
         graph.addVertex(2, 2);
         graph.addVertex(3, 3);
@@ -375,7 +375,6 @@ public class GraphAdjacentListTest {
         assertEquals(Color.WHITE,graph.getVertex(6).getColor());
     }
 
-
     @Test
     public void testBFSAndThereIsNotStartVertex(){
         setUpStageDirected();
@@ -390,7 +389,7 @@ public class GraphAdjacentListTest {
     @Test
     public void testDijsktraWithAllVertexsConected(){
         setUpStageDirected();
-        ArrayList<Integer> result = new ArrayList<>(Arrays.asList(0,1,1,2,30,11,21,10,14,15));
+        ArrayList<Integer> result = new ArrayList<>(Arrays.asList(0,1,1,2,30,11,12,     21,10,14,15));
         ArrayList<Integer> path = new ArrayList<>();
         try {
             path=graph.dijkstra(1);
@@ -461,6 +460,9 @@ public class GraphAdjacentListTest {
         assertEquals(Integer.MAX_VALUE,graph.getVertex(5).getDistance());
         assertEquals(Integer.MAX_VALUE,graph.getVertex(6).getDistance());
     }
+
+
+
 
 
 

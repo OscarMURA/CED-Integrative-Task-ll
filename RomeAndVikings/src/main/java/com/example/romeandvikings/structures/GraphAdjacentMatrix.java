@@ -88,13 +88,13 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
         Collections.sort(matrix[vertex1][vertex2]);
         edges.add(new Edge<>(vertexs.get(key1),vertexs.get(key2),weight));
         if(!directed){
-
             matrix[vertex2][vertex1].add(weight);
             Collections.sort(matrix[vertex2][vertex1]);
             edges.add(new Edge<>(vertexs.get(key2),vertexs.get(key1),weight));
         }
         return true;
     }
+
 
     @Override
     public boolean removeEdge(K key1, K key2) throws exceptionNoVertexExist {
@@ -142,6 +142,8 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
             vertex.setPredecessor(null);
         }
         Vertex<K,V> vertex = vertexs.get(keyVertex);
+        if(vertex==null)
+            throw new exceptionNoVertexExist(keyVertex.toString());
         vertex.setColor(Color.GRAY);
         vertex.setDistance(0);
         Queue<Vertex<K,V>> queue = new LinkedList<>();
@@ -209,10 +211,13 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
         }
         while (!queue.isEmpty()){
             Vertex<K,V> u = queue.poll();
+
             for(Vertex<K,V> v: vertexs.values()) {
+
                 if(adjacent(u.getKey(),v.getKey())) {
-                    int weight = matrix[indexVertex(u.getKey())][indexVertex(v.getKey())].get(0)+u.getDistance();
-                    if(weight < v.getDistance()){
+
+                    int weight =u.getDistance()+matrix[indexVertex(u.getKey())][indexVertex(v.getKey())].get(0);
+                    if(weight < v.getDistance() || v.getDistance() < -100){
                         v.setDistance(weight);
                         v.setPredecessor(u);
                         queue.offer(v);
@@ -331,6 +336,8 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V>{
         }
     }
 
-
+    public HashMap<K,Vertex<K,V>> getVertexs() {
+        return vertexs;
+    }
 
 }
