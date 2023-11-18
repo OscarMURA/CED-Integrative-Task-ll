@@ -20,11 +20,7 @@
             <artifactId>javafx-controls</artifactId>
             <version>19.0.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>19.0.2</version>
-        </dependency>
+
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-media</artifactId>
@@ -74,7 +70,7 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-<<<<<<< HEAD
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -93,6 +89,7 @@
             <version>4.13.1</version>
         </dependency>
         <dependency>
+<<<<<<< HEAD
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>RELEASE</version>
@@ -124,6 +121,13 @@
         </dependency>
         =======
 >>>>>>> d5794d165c8a9660d9a1f800214c7de9f241cd9b
+=======
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>21-ea+5</version>
+        </dependency>
+
+>>>>>>> 216fa9de7f52696ab493ce8fa907ffdbac3a3ced
     </dependencies>
 
     <build>
@@ -146,7 +150,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.romeandvikings/com.example.romeandvikings.HelloApplication
+                            <mainClass>com.example.romeandvikings/com.example.romeandvikings.RomeApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

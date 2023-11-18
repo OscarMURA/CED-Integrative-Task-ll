@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainScreen" accessibleRole="RADIO_BUTTON" prefHeight="670.0" prefWidth="1033.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.romeandvikings.controller.GameController">
+
+    <ImageView fitHeight="700.0" fitWidth="668.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@images/mapEurope.png" />
+    </ImageView>
+    <ImageView fitHeight="66.0" fitWidth="67.0" layoutX="400.0" layoutY="587.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@images/romeUnit.png" />
+    </ImageView>
+    <ImageView fitHeight="84.0" fitWidth="113.0" layoutX="447.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@images/vikingUnit.png" />
+    </ImageView>
+
+    <Label layoutX="714.0" layoutY="14.0" prefHeight="46.0" prefWidth="288.0" text="REGLAS DE VENGANZA ROMANA" textFill="#ff0606">
+      <font>
+         <Font name="System Italic" size="19.0" />
+      </font></Label>
+
+    <Label fx:id="armyLabel" layoutX="703.0" layoutY="620.0" prefHeight="44.0" prefWidth="313.0" textFill="#fa0020">
+        <font>
+            <Font name="System Bold Italic" size="20.0" />
+        </font></Label>
+
+    <Button fx:id="consultDifficulty" layoutX="714.0" layoutY="455.0" mnemonicParsing="false" onAction="#consultAction" prefHeight="46.0" prefWidth="136.0" text="Consultar" />
+
+    <Button layoutX="867.0" layoutY="455.0" onAction="#attackAction" prefHeight="46.0" prefWidth="157.0" text="ATACAR">
+      <font>
+         <Font size="21.0" />
+      </font></Button>
+    <Button layoutX="709.0" layoutY="516.0" onAction="#dijkstraAction" prefHeight="46.0" prefWidth="146.0" text="Algoritmo Dijkstra">
+      <font>
+         <Font size="15.0" />
+      </font></Button>
+    <Button layoutX="867.0" layoutY="516.0" onAction="#kruskalAction" prefHeight="46.0" prefWidth="157.0" text="Algoritmo Kruskal">
+      <font>
+         <Font size="17.0" />
+      </font></Button>
+    <Button layoutX="791.0" layoutY="576.0" onAction="#surrenderAction" prefHeight="34.0" prefWidth="136.0" text="Rendirse">
+      <font>
+         <Font size="20.0" />
+      </font></Button>
+    <Label layoutX="698.0" layoutY="56.0" prefHeight="316.0" prefWidth="321.0" style="-fx-background-color: White;" text="Un gusto verte solado! Tu misión romana es llevar al ejército desde Sicilia hasta la base Vikinga a través de ciudades y pueblos conectados en un grafo. Avanzar significa conquistar estos lugares enfrentando desafíos. Al seleccionar un pueblo cuentas con el botón de consultar para saber su dificultad de conquista y con el botón de atacar si deseas conquistar aquel pueblo. Cuentas con dos algoritmos cruciales que te asisten: Dijkstra encuentra la ruta más corta hacia la base Vikinga, mostrando los pesos de los caminos a los territorios, mientras que Kruskal muestra las 10 rutas más económicas para expandir el imperio, para un uso estratégico. El puntaje funciona multiplicando los pueblos por 50 y el ejército por 5, pero usar algoritmos resta: Kruskal 100, Dijkstra 200, ambos 250 puntos. Rendirse o perder significa cero puntos. ¡Dirige al ejército romano hacia la gloria en la Europa medieval, conquistando pueblos, eligiendo sabiamente las rutas y enfrentando desafíos estratégicos en el camino hacia la base Vikinga!" wrapText="true" AnchorPane.bottomAnchor="415.0" AnchorPane.leftAnchor="698.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="56.0" />
+
+    <HBox layoutX="1.0" layoutY="654.0" prefHeight="17.0" prefWidth="684.0" style="-fx-background-color: #5F2525;" />
+   <HBox layoutX="683.0" prefHeight="672.0" prefWidth="8.0" style="-fx-background-color: #5F2525;" />
+   <HBox layoutX="684.0" layoutY="413.0" prefHeight="8.0" prefWidth="349.0" style="-fx-background-color: #5F2525;" />
+
+   <Label fx:id="difficultyLabel" layoutX="714.0" layoutY="421.0" prefHeight="34.0" prefWidth="211.0" text="Label" />
+
+</AnchorPane>

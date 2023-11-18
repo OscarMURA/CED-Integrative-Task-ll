@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.romeandvikings.controller.InformationController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <VBox alignment="CENTER" spacing="10.0">
+        <ImageView fitHeight="269.0" fitWidth="347.0">
+            <Image url="@images/romaHelmet.jpg" />
+        </ImageView>
+
+        <Label text="¡Bienvenido a Venganza Romana!" />
+        <Label text="Selecciona una implementación de grafo:" />
+
+        <ComboBox fx:id="graphComboBox" promptText="Seleccione modo">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Matriz de Adyacencia" />
+                    <String fx:value="Lista de Adyacencia" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+
+        <Button fx:id="buttonPlay" onAction="#onStartButtonClick" text="Iniciar Juego" />
+    </VBox>
+</StackPane>

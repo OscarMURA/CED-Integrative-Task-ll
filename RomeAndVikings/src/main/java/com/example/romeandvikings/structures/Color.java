@@ -1,5 +1,7 @@
 package com.example.romeandvikings.structures;
 
+import javafx.scene.paint.Paint;
+
 /**
  * Enumeration representing the possible colors of a vertex during the path of a graph.
  * The colors represent the visited and explored status of a vertex.

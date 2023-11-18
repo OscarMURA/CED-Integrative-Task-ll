@@ -252,6 +252,50 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
     }
 
     @Override
+    public ArrayList<Integer> shortestPath(K startNode, K endNode) throws exceptionNoVertexExist {
+        if (vertexs.get(startNode) == null || vertexs.get(endNode) == null)
+            throw new exceptionNoVertexExist("No se encontró un nodo.");
+
+        for (VertexAdjacentList<K, V> vertex : vertexs.values()) {
+            if (vertex.getKey().compareTo(startNode) != 0)
+                vertex.setDistance(INFINITE);
+            vertex.setPredecessor(null);
+        }
+
+        PriorityQueue<VertexAdjacentList<K, V>> priority = new PriorityQueue<>(Comparator.comparingInt(Vertex::getDistance));
+        for (VertexAdjacentList<K, V> vertex : vertexs.values()) {
+            priority.offer(vertex);
+        }
+
+        while (!priority.isEmpty()) {
+            VertexAdjacentList<K, V> vertex = priority.poll();
+            LinkedList<Edge<K, V>> edges = vertex.getEdges();
+            for (Edge<K, V> edge : edges) {
+                VertexAdjacentList<K, V> vertex2 = (VertexAdjacentList<K, V>) edge.getDestination();
+                int weight = edge.getWeight() + vertex.getDistance();
+                if (weight < vertex2.getDistance()) {
+                    priority.remove(vertex2);
+                    vertex2.setDistance(weight);
+                    vertex2.setPredecessor(vertex);
+                    priority.offer(vertex2);
+                }
+            }
+        }
+
+        ArrayList<Integer> shortestPath = new ArrayList<>();
+        VertexAdjacentList<K, V> currentNode = vertexs.get(endNode);
+        while (currentNode != null && !currentNode.getKey().equals(startNode)) {
+            shortestPath.add((Integer) currentNode.getKey());
+            currentNode = (VertexAdjacentList<K, V>) currentNode.getPredecessor();
+        }
+        shortestPath.add((Integer) startNode);
+        Collections.reverse(shortestPath);
+
+        return shortestPath;
+    }
+
+
+    @Override
     public ArrayList<Edge<K, V>> kruskal() {
         if(directed)
 
@@ -343,5 +387,21 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         return dist;
     }
 
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Vertices:\n");
+        for (Vertex<K, V> vertex : vertexs.values()) {
+            sb.append(vertex.getKey()).append(" ");
+        }
+        sb.append("\n\nEdges:\n");
+        for (Edge<K, V> edge : edges) {
+            sb.append(edge.getStart().getKey()).append(" -> ").append(edge.getDestination().getKey()).append(" (").append(edge.getWeight()).append(")\n");
+        }
+        return sb.toString();
+    }
+
+    public LinkedList<Edge<K, V>> getEdge() {
+        return edges;
+    }
 
 }
