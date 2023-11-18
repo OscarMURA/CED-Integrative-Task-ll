@@ -17,17 +17,17 @@
         <Image url="@images/vikingUnit.png" />
     </ImageView>
 
-    <Label layoutX="697.0" layoutY="26.0" prefHeight="74.0" prefWidth="288.0" text="Reglas de VENGANZA ROMANA" textFill="#ff0606">
+    <Label layoutX="714.0" layoutY="43.0" prefHeight="84.0" prefWidth="288.0" text="REGLAS DE VENGANZA ROMANA" textFill="#ff0606">
       <font>
          <Font name="System Italic" size="19.0" />
       </font></Label>
 
-    <Label fx:id="armyLabel" layoutX="701.0" layoutY="687.0" prefHeight="66.0" prefWidth="313.0" textFill="#fa0020">
+    <Label fx:id="armyLabel" layoutX="714.0" layoutY="654.0" prefHeight="66.0" prefWidth="313.0" textFill="#fa0020">
         <font>
             <Font name="System Bold Italic" size="20.0" />
         </font></Label>
 
-    <Button fx:id="consultDifficulty" layoutX="711.0" layoutY="650.0" mnemonicParsing="false" onAction="#consultAction" text="Consultar" />
+    <Button fx:id="consultDifficulty" layoutX="714.0" layoutY="587.0" mnemonicParsing="false" onAction="#consultAction" prefHeight="46.0" prefWidth="288.0" text="Consultar" />
 
     <Button layoutX="14.0" layoutY="703.0" onAction="#attackAction" prefHeight="59.0" prefWidth="126.0" text="ATACAR">
       <font>
@@ -45,12 +45,12 @@
       <font>
          <Font size="20.0" />
       </font></Button>
-    <Label layoutX="697.0" layoutY="94.0" prefHeight="465.0" prefWidth="319.0" text="los jugadores asumen el papel de líderes romanos en una misión para conquistar Europa medieval. El juego se desarrolla en un mapa representado por un grafo no dirigido, donde los nodos representan ubicaciones como ciudades, reinos y pueblos, y las aristas representan las rutas que conectan estas ubicaciones.  El objetivo final del jugador es conquistar la base vikinga, ubicada en el punto más alto del mapa. Para lograrlo, el jugador debe avanzar conquistando diferentes territorios a lo largo del camino. Cada territorio conquistado otorga recursos que se pueden utilizar para reclutar soldados y mejorar el equipamiento.  Cuándo usar los Algoritmos:  Algoritmo de Dijkstra: Utilizado para determinar la ruta más eficiente hacia la base vikinga. Sin embargo, esta ruta puede implicar menos puntos y territorios conquistados. El jugador debe decidir si priorizar la eficiencia o la expansión del imperio.  Algoritmo de Prim: Es especialmente útil cuando el jugador se encuentra en una situación complicada, como estar atrapado en un pueblo y enfrentar dificultades para avanzar hacia regiones más avanzadas de Europa. Proporciona orientación sobre cómo adquirir recursos y territorios de manera estratégica, allanando el camino hacia el siguiente conjunto de ubicaciones a explorar.  El uso sabio de estos algoritmos será crucial para el éxito del jugador en su búsqueda de conquista en Venganza Romana. ¡Aprovecha tu conocimiento y estrategia para llevar a Roma hacia la victoria!" wrapText="true" AnchorPane.bottomAnchor="228.0" AnchorPane.leftAnchor="697.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="94.0" />
+    <Label layoutX="698.0" layoutY="101.0" prefHeight="365.0" prefWidth="323.0" text="Un gusto verte solado! Tu misión romana es llevar al ejército desde Sicilia hasta la base Vikinga a través de ciudades y pueblos conectados en un grafo. Avanzar significa conquistar estos lugares enfrentando desafíos. Al seleccionar un pueblo cuentas con el botón de consultar para saber su dificultad de conquista y con el botón de atacar si deseas conquistar aquel pueblo. Cuentas con dos algoritmos cruciales que te asisten: Dijkstra encuentra la ruta más corta hacia la base Vikinga, mostrando los pesos de los caminos a los territorios, mientras que Kruskal muestra las 10 rutas más económicas para expandir el imperio, para un uso estratégico. El puntaje funciona multiplicando los pueblos por 50 y el ejército por 5, pero usar algoritmos resta: Kruskal 100, Dijkstra 200, ambos 250 puntos. Rendirse o perder significa cero puntos. ¡Dirige al ejército romano hacia la gloria en la Europa medieval, conquistando pueblos, eligiendo sabiamente las rutas y enfrentando desafíos estratégicos en el camino hacia la base Vikinga!" wrapText="true" AnchorPane.bottomAnchor="321.0" AnchorPane.leftAnchor="698.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="101.0" />
 
     <HBox layoutX="1.0" layoutY="654.0" prefHeight="17.0" prefWidth="684.0" style="-fx-background-color: red;" />
-   <HBox layoutX="680.0" prefHeight="787.0" prefWidth="11.0" style="-fx-background-color: red;" />
-   <HBox layoutX="685.0" layoutY="566.0" prefHeight="8.0" prefWidth="349.0" style="-fx-background-color: red;" />
+   <HBox layoutX="683.0" prefHeight="787.0" prefWidth="8.0" style="-fx-background-color: red;" />
+   <HBox layoutX="683.0" layoutY="476.0" prefHeight="8.0" prefWidth="349.0" style="-fx-background-color: red;" />
 
-   <Label fx:id="difficultyLabel" layoutX="717.0" layoutY="600.0" prefHeight="46.0" prefWidth="211.0" text="Label" />
+   <Label fx:id="difficultyLabel" layoutX="714.0" layoutY="524.0" prefHeight="46.0" prefWidth="211.0" text="Label" />
 
 </AnchorPane>
