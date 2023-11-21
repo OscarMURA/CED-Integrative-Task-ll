@@ -6,6 +6,7 @@ module com.example.romeandvikings {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
     requires junit;
+    requires java.logging;
     opens com.example.romeandvikings to javafx.fxml;
     exports com.example.romeandvikings;
     exports com.example.romeandvikings.controller;
