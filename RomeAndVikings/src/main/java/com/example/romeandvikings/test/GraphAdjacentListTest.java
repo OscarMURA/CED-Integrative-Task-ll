@@ -136,6 +136,9 @@ public class GraphAdjacentListTest {
         graph.addVertex(5, 5);
         graph.addVertex(6, 6);
     }
+    /**
+     * The testAddVertexToGraph function tests the functionality of adding a vertex to a graph.
+     */
     @Test
     public void testAddVertexToGraph() {
         setUpStageSimpleGraph();
@@ -144,6 +147,9 @@ public class GraphAdjacentListTest {
         assertEquals(7,graph.getVertexs().size());
     }
 
+    /**
+     * The testAddVertexToGraphDirected function tests the addVertex method in a directed graph, ensuring that a vertex is added successfully and the size of the graph is updated accordingly.
+     */
     @Test
     public void testAddVertexToGraphDirected(){
         setUpStageDirected();
@@ -152,6 +158,9 @@ public class GraphAdjacentListTest {
         assertEquals(12,graph.getVertexs().size());
     }
 
+    /**
+     * The testAddVertexToGraphAlreadyExist function tests whether adding a vertex to a graph that already exists returns false and does not change the size of the graph.
+     */
     @Test
     public void testAddVertexToGraphAlreadyExist(){
         setUpStageSimpleGraph();
@@ -161,7 +170,9 @@ public class GraphAdjacentListTest {
     }
 
 
-
+    /**
+     * This function tests adding an edge to a vertex that does not exist in a graph.
+     */
     @Test
     public void testAddEdgeToVertexThatNotExist(){
         setUpStageSimpleGraph();
@@ -175,6 +186,11 @@ public class GraphAdjacentListTest {
         }
     }
 
+    
+    /**
+     * This function tests adding an edge to the same vertex in a simple graph, returning a exceptionOnGraphTypeNotAllowed exception.
+     * by the fact that a simple graph cannot have loops.
+     */
     @Test
     public void testAddEdgeToSameVertexInGraphSimple(){
         setUpStageSimpleGraph();
@@ -189,6 +205,22 @@ public class GraphAdjacentListTest {
         }
     }
 
+    /**
+     * The testAddEdgeGraph function tests whether an edge can be added to a graph.
+     */
+    @Test
+    public void testAddEdgeGraph(){
+        setUpStageSimpleGraph();
+        try {
+            assertTrue(graph.addEdge(1,2,10));
+        } catch (exceptionNoVertexExist | exceptionOnGraphTypeNotAllowed e) {
+            fail("Exception no expected");
+        }
+    }
+
+    /**
+     * The testRemoveVertexOfGraphSimple function tests the removeVertex method of a graph by removing all vertices and checking if the graph is empty.
+     */
     @Test
     public void testRemoveVertexOfGraphSimple() {
         setUpStageSimpleGraph();
@@ -207,6 +239,9 @@ public class GraphAdjacentListTest {
         assertEquals(0,graph.getVertexs().size());
     }
 
+   /**
+    * The testRemoveVertexOfGraphDirected function tests the removeVertex method of a directed graph by removing multiple vertices and checking if the size of the graph's vertex list is updated correctly.
+    */
     @Test
     public void  testRemoveVertexOfGraphDireted(){
         setUpStageDirected();
@@ -235,13 +270,18 @@ public class GraphAdjacentListTest {
         assertTrue(result);
         assertEquals(0,graph.getVertexs().size());
     }
-
+    /**
+     * The testRemoveVertexOfGraphSimpleNotExist function tests the removeVertex method of the graph class by attempting to remove a vertex that does not exist in the graph.
+     */
     @Test
     public void testRemoveVertexOfGraphSimpleNotExist() {
         setUpStageSimpleGraph();
         boolean result = graph.removeVertex(7);
         assertFalse(result);
     }
+    /**
+     * The testRemoveVertexOfGraphDirectedNotExist function tests the removeVertex method of a directed graph to ensure that it returns false when trying to remove a non-existent vertex.
+     */
     @Test
     public void testRemoveVertexOfGraphDirectedNotExist(){
         setUpStageDirected();
@@ -249,6 +289,9 @@ public class GraphAdjacentListTest {
         assertFalse(result);
     }
 
+    /**
+     * The testRemoveEdgeConnectedWithOtherEdgeList function tests the removeEdge method in a graph by removing multiple edges and checking if the removal was successful.
+     */
     @Test
     public void testRemoveEdgeConnectedWithOtherEdgeList(){
         setUpStageSimpleGraph();
@@ -274,6 +317,9 @@ public class GraphAdjacentListTest {
         }
     }
 
+/**
+ * The testRemoveEdgeConnectedWithOtherEdgeListDirected function tests the removeEdge method in a directed graph by removing multiple edges and checking if the removal was successful.
+ */
     @Test
     public void testRemoveEdgeConnectedWithOtherEdgeListDirected(){
         setUpStageDirected();

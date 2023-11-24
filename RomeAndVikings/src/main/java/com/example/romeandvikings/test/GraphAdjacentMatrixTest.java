@@ -178,6 +178,15 @@ public class GraphAdjacentMatrixTest {
             assertNotNull(e.getMessage());
         }
     }
+    @Test
+    public void testAddEdgeGraph(){
+        setUpStageSimpleGraph();
+        try {
+            assertTrue(graph.addEdge(1,2,10));
+        } catch (exceptionNoVertexExist | exceptionOnGraphTypeNotAllowed e) {
+            fail("Exception no expected");
+        }
+    }
 
     @Test
     public void testRemoveVertexOfGraphSimple() {
