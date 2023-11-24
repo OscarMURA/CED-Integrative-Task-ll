@@ -1,5 +1,6 @@
 package com.example.romeandvikings;
 
+import com.example.romeandvikings.controller.AudioManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,6 +19,8 @@ public class RomeApplication extends Application {
         stage.getIcons().add(new Image("file:" + (RomeApplication.class.getResource("images/romaHelmet.jpg")).getPath()));
         stage.setScene(scene);
         stage.show();
+        AudioManager.getInstance().setMusicPath("/roma.wav");
+        AudioManager.getInstance().playMusic(1000);
     }
 
     public static void main(String[] args) {

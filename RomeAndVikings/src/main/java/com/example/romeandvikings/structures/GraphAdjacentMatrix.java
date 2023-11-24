@@ -116,7 +116,6 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
                 }
             }
             if (!directed) {
-
                 // Si el grafo no es dirigido, también eliminamos la arista inversa
                 matrix[vertex2][vertex1].remove(0);
                 for (Iterator<Edge<K, V>> iterator = edges.iterator(); iterator.hasNext(); ) {
@@ -297,76 +296,31 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
         return edges;
     }
 
-    public ArrayList<Edge<K, V>> prim() throws exceptionOnGraphTypeNotAllowed {
-        if (directed) {
-            throw new exceptionOnGraphTypeNotAllowed("El grafo no debe ser dirigido para ejecutar Prim.");
-        }
 
-        HashSet<K> visited = new HashSet<>();
-        PriorityQueue<Edge<K, V>> minHeap = new PriorityQueue<>(Comparator.comparingInt(Edge::getWeight));
-        ArrayList<Edge<K, V>> minimumSpanningTree = new ArrayList<>();
 
-        K startVertex = vertexs.keySet().iterator().next(); // Comenzar desde un vértice arbitrario
-
-        visited.add(startVertex);
-        addEdgesToMinHeap(startVertex, minHeap);
-        while (visited.size() < vertexs.size()) {
-            Edge<K, V> minEdge = minHeap.poll();
-            K fromKey = minEdge.getStart().getKey();
-            K toKey = minEdge.getDestination().getKey();
-
-            if (!visited.contains(toKey)) {
-                visited.add(toKey);
-                minimumSpanningTree.add(minEdge);
-                addEdgesToMinHeap(toKey, minHeap);
-            }
-        }
-
-        return minimumSpanningTree;
-    }
-
-    private void addEdgesToMinHeap(K key, PriorityQueue<Edge<K, V>> minHeap) {
-        int index = indexVertex(key);
-        for (int i = 0; i < matrix.length; i++) {
-            if (matrix[index][i].size() > 0) {
-                K neighborKey = null;
-                for (Map.Entry<K, Integer> entry : vertexesPosition.entrySet()) {
-                    if (entry.getValue() == i) {
-                        neighborKey = entry.getKey();
-                        break;
-                    }
-                }
-                int weight = matrix[index][i].get(0);
-                if (!minHeap.contains(new Edge<>(vertexs.get(key), vertexs.get(neighborKey), weight))) {
-                    minHeap.add(new Edge<>(vertexs.get(key), vertexs.get(neighborKey), weight));
-                }
-            }
-        }
-    }
-
-    public void floydWarshall() {
+    public ArrayList<ArrayList<Integer>> floydWarshall() {
         int n = matrix.length;
-        int[][] distance = new int[n][n];
-
+        ArrayList<ArrayList<Integer>> distance = new ArrayList<>();
         for (int i = 0; i < n; i++) {
+            ArrayList<Integer> row = new ArrayList<>();
             for (int j = 0; j < n; j++) {
                 if (i == j) {
-                    distance[i][j] = 0;
+                    row.add(0);
                 } else if (matrix[i][j].size() > 0) {
-                    distance[i][j] = matrix[i][j].get(0);
+                    row.add(matrix[i][j].get(0));
                 } else {
-                    distance[i][j] = Integer.MAX_VALUE;
+                    row.add(1000000);
                 }
             }
+            distance.add(row);
         }
-
         for (int k = 0; k < n; k++) {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    if (distance[i][k] != Integer.MAX_VALUE && distance[k][j] != Integer.MAX_VALUE) {
-                        int newDistance = distance[i][k] + distance[k][j];
-                        if (newDistance < distance[i][j]) {
-                            distance[i][j] = newDistance;
+                    if (distance.get(i).get(k) != 1000000 && distance.get(k).get(j) != 1000000) {
+                        int newDistance = distance.get(i).get(k) + distance.get(k).get(j);
+                        if (newDistance < distance.get(i).get(j)) {
+                            distance.get(i).set(j, newDistance);
                         }
                     }
                 }
@@ -375,12 +329,12 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (i != j && distance[i][j] != Integer.MAX_VALUE) {
-                    matrix[i][j].clear();
-                    matrix[i][j].add(distance[i][j]);
-                }
+                matrix[i][j].clear();
+                matrix[i][j].add(distance.get(i).get(j));
             }
         }
+
+        return distance;
     }
 
     public HashMap<K,Vertex<K,V>> getVertexs() {
@@ -397,6 +351,63 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
             sb.append(edge.getStart().getKey()).append(" -> ").append(edge.getDestination().getKey()).append(" (").append(edge.getWeight()).append(")\n");
         }
         return sb.toString();
+    }
+
+    public ArrayList<Edge<K, V>> prim() {
+        if (directed) {
+            throw new IllegalArgumentException("Prim's algorithm is only applicable to undirected graphs.");
+        }
+
+        HashSet<K> visited = new HashSet<>();
+        PriorityQueue<Edge<K, V>> minHeap = new PriorityQueue<>(Comparator.comparingInt(Edge::getWeight));
+        ArrayList<Edge<K, V>> minimumSpanningTree = new ArrayList<>();
+
+        // Escoge el primer vértice como punto de inicio
+        K startVertex = vertexs.keySet().iterator().next();
+        visited.add(startVertex);
+
+        while (visited.size() < matrix.length) {
+            int startVertexIndex = indexVertex(startVertex);
+
+            for (int i = 0; i < matrix.length; i++) {
+                if (!visited.contains(getKeyByIndex(i)) && matrix[startVertexIndex][i].size() > 0) {
+                    minHeap.offer(new Edge<>(vertexs.get(startVertex), vertexs.get(getKeyByIndex(i)), matrix[startVertexIndex][i].get(0)));
+                }
+            }
+
+            // Manejo del caso cuando el minHeap está vacío
+            if (minHeap.isEmpty()) {
+                break;
+            }
+
+            Edge<K, V> minEdge = minHeap.poll();
+            while (minEdge != null && visited.contains(minEdge.getDestination().getKey())) {
+                minEdge = minHeap.poll();
+            }
+
+            // Verifica si minEdge es nulo después de la segunda extracción
+            if (minEdge == null) {
+                break;
+            }
+
+            minimumSpanningTree.add(minEdge);
+            startVertex = minEdge.getDestination().getKey();
+            visited.add(startVertex);
+        }
+
+        return minimumSpanningTree;
+    }
+
+
+
+    // Método auxiliar para obtener la clave del vértice según su índice en la matriz
+    private K getKeyByIndex(int index) {
+        for (Map.Entry<K, Integer> entry : vertexesPosition.entrySet()) {
+            if (entry.getValue() == index) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
 

@@ -2,7 +2,6 @@ package com.example.romeandvikings.structures;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
 public abstract class Graph <K extends Comparable<K>,V> implements IGraph<K,V>{
     protected int time, numberVertexsCurrent;

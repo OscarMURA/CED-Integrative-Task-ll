@@ -7,17 +7,17 @@ import com.example.romeandvikings.model.City;
 import com.example.romeandvikings.model.Implementation;
 import com.example.romeandvikings.model.Map;
 import com.example.romeandvikings.structures.Edge;
-import com.example.romeandvikings.structures.GraphAdjacentMatrix;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
-
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -55,6 +55,7 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        AudioManager.getInstance().setMusicPath("romeMusic.wav");
         armyLabel.setText("UNIDADES DISPONIBLES: " + armyRome);
         difficultyLabel.setText("DIFICULTAD DEL PUEBLO: " );
     }

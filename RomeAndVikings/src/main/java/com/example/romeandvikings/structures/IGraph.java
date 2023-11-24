@@ -19,4 +19,6 @@ public interface IGraph<K extends Comparable<K>,V> {
     ArrayList<Edge<K, V>> kruskal() throws exceptionOnGraphTypeNotAllowed;
     LinkedList<Edge<K, V>> getEdge();
     ArrayList<Integer> shortestPath(K startNode, K endNode) throws exceptionNoVertexExist;
+    ArrayList<ArrayList<Integer>> floydWarshall();
+    ArrayList<Edge<K, V>> prim();
 }

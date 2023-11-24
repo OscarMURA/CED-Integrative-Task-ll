@@ -52,11 +52,9 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
     public Vertex<K, V> getVertex(K key) {
         return vertexs.get(key);
     }
-
     public HashMap<K,VertexAdjacentList<K,V>> getVertexs() {
         return vertexs;
     }
-
 
     @Override
     public boolean addEdge(K key1, K key2, int weight) throws exceptionNoVertexExist, exceptionOnGraphTypeNotAllowed {
@@ -204,7 +202,6 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
     private void DFSVisit(VertexAdjacentList<K,V> vertex, int t){
         time+=1;
         vertex.setDistance(time);
-
         vertex.setColor(Color.GRAY);
         LinkedList<Edge<K,V>> edges = vertex.getEdges();
         for(Edge<K,V> edge : edges){
@@ -298,8 +295,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
     @Override
     public ArrayList<Edge<K, V>> kruskal() {
         if(directed)
-
-            throw new UnsupportedOperationException("Kruskal algorithm is not supported for directed graphs");
+            throw new exceptionOnGraphTypeNotAllowed("is not supported for directed graphs");
         ArrayList<Edge<K,V>> mst = new ArrayList<>();
         UnionFind unionFind = new UnionFind(vertexs.size());
         edges.sort(Comparator.comparingInt(Edge::getWeight));
@@ -314,70 +310,36 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         return mst;
     }
 
-    public ArrayList<Edge<K, V>> prim() throws exceptionOnGraphTypeNotAllowed {
-        if (directed) {
-            throw new exceptionOnGraphTypeNotAllowed("prim algorithm is not supported for directed graphs");
-        }
-        HashSet<K> visited = new HashSet<>();
-        PriorityQueue<Edge<K, V>> minHeap = new PriorityQueue<>(Comparator.comparingInt(Edge::getWeight));
-        ArrayList<Edge<K, V>> minimumSpanningTree = new ArrayList<>();
-        K startVertexKey = vertexs.keySet().iterator().next(); // Comenzar desde un vértice arbitrario
-        visited.add(startVertexKey);
-        addEdgesToMinHeap(startVertexKey, minHeap);
-        while (visited.size() < vertexs.size()) {
-            Edge<K, V> minEdge = minHeap.poll();
-            K fromKey = minEdge.getStart().getKey();
-            K toKey = minEdge.getDestination().getKey();
 
-            if (!visited.contains(toKey)) {
-                visited.add(toKey);
-                minimumSpanningTree.add(minEdge);
-                addEdgesToMinHeap(toKey, minHeap);
-            }
-        }
-
-        return minimumSpanningTree;
-    }
-
-    private void addEdgesToMinHeap(K key, PriorityQueue<Edge<K, V>> minHeap) {
-        VertexAdjacentList<K, V> vertex = vertexs.get(key);
-        for (Edge<K, V> edge : vertex.getEdges()) {
-            K neighborKey = edge.getDestination().getKey();
-            int weight = edge.getWeight();
-            if (!minHeap.contains(new Edge<>(vertex, vertexs.get(neighborKey), weight))) {
-                minHeap.add(new Edge<>(vertex, vertexs.get(neighborKey), weight));
-            }
-        }
-    }
 
     public ArrayList<ArrayList<Integer>> floydWarshall() {
         int size = numberVertexsCurrent;
         ArrayList<ArrayList<Integer>> dist = new ArrayList<>();
-
+        int infinite=1000000;
         for (int i = 0; i < size; i++) {
             ArrayList<Integer> row = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                if (i == j) {
-                    row.add(0);
-                } else {
-                    row.add(INFINITE);
-                }
+                row.add(1000000);
             }
             dist.add(row);
         }
-
-        for (Edge<K, V> edge : edges) {
-            int fromIndex = vertexsIndex(edge.getStart().getKey());
-            int toIndex = vertexsIndex(edge.getDestination().getKey());
-            dist.get(fromIndex).set(toIndex, edge.getWeight());
+        for (int i = 0; i < size; i++) {
+            dist.get(i).set(i, 0);
         }
 
+        for (VertexAdjacentList<K, V> vertex : vertexs.values()) {
+            int fromIndex = vertexsIndex(vertex.getKey());
+            for (Edge<K, V> edge : vertex.getEdges()) {
+                int toIndex = vertexsIndex(edge.getDestination().getKey());
+                dist.get(fromIndex).set(toIndex, edge.getWeight());
+            }
+        }
         for (int k = 0; k < size; k++) {
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
                     int directPath = dist.get(i).get(j);
                     int throughK = dist.get(i).get(k) + dist.get(k).get(j);
-                    if (throughK < directPath) {
+                    if (throughK < directPath ){
                         dist.get(i).set(j, throughK);
                     }
                 }
@@ -386,6 +348,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
 
         return dist;
     }
+
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -399,9 +362,51 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         }
         return sb.toString();
     }
-
     public LinkedList<Edge<K, V>> getEdge() {
         return edges;
     }
+
+    public ArrayList<Edge<K, V>> prim() {
+        if (directed) {
+            throw new IllegalArgumentException("Prim's algorithm is only applicable to undirected graphs.");
+        }
+
+        HashSet<K> visited = new HashSet<>();
+        PriorityQueue<Edge<K, V>> minHeap = new PriorityQueue<>(Comparator.comparingInt(Edge::getWeight));
+        ArrayList<Edge<K, V>> minimumSpanningTree = new ArrayList<>();
+
+        // Choose a starting vertex
+        K startVertex = vertexs.keySet().iterator().next();
+        visited.add(startVertex);
+
+        // Add edges of the starting vertex to the priority queue
+        for (Edge<K, V> edge : vertexs.get(startVertex).getEdges()) {
+            minHeap.offer(edge);
+        }
+
+        while (!minHeap.isEmpty() && visited.size() < vertexs.size()) {
+            Edge<K, V> minEdge = minHeap.poll();
+            K destinationKey = minEdge.getDestination().getKey();
+
+            if (!visited.contains(destinationKey)) {
+                visited.add(destinationKey);
+                minimumSpanningTree.add(minEdge);
+
+                // Add edges of the newly visited vertex to the priority queue
+                for (Edge<K, V> edge : vertexs.get(destinationKey).getEdges()) {
+                    if (!visited.contains(edge.getDestination().getKey())) {
+                        minHeap.offer(edge);
+                    }
+                }
+            }
+        }
+
+        for (Edge<K, V> edge : minimumSpanningTree) {
+            System.out.println(edge.getStart().getKey() + " - " + edge.getDestination().getKey() + " (" + edge.getWeight() + ")");
+        }
+
+        return minimumSpanningTree;
+    }
+
 
 }
