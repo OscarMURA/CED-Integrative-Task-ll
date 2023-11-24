@@ -276,15 +276,19 @@ public class GameController implements Initializable {
                 }
             }
             int score = (armyRome * 5 + villages * 50);
+            int help = 0;
             if(helpMethod2 && helpMethod1){
                 score -= 250;
+                help = 250;
             }
             else if(helpMethod1){
                 score -= 100;
+                help = 100;
             }else if(helpMethod2){
                 score -= 200;
+                help = 200;
             }
-            alert.setContentText("FELICIDADES SOLDADO, HAS LOGRADO NUESTRA VENGANZA AL CONQUISTAR A LOS VIKINGOS DEL NORTE, ERES UN ORGULLO!! \n Tu puntaje final ha sido de: " + score + " puntos \n por tus " + armyRome + " unidades restantes y " + villages + " pueblos conquistados" );
+            alert.setContentText("FELICIDADES SOLDADO, HAS LOGRADO NUESTRA VENGANZA AL CONQUISTAR A LOS VIKINGOS DEL NORTE, ERES UN ORGULLO!! \n Tu puntaje final ha sido de: " + score + " puntos, \n por tus " + armyRome + " unidades restantes y " + villages + " pueblos conquistados. \n" + "Pena de " + help+ " puntos por el uso de ayudas en el juego"  );
             Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
             stage.getIcons().add(new Image("file:" + (RomeApplication.class.getResource("images/romaHelmet.jpg")).getPath()));
 
