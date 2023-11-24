@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public interface IGraph<K extends Comparable<K>,V> {
-
     boolean addVertex(K key, V value) throws exceptionNoVertexExist;
     boolean removeVertex(K key);
     Vertex<K,V> getVertex(K key);

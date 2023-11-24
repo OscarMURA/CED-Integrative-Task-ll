@@ -326,7 +326,6 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
         for (int i = 0; i < size; i++) {
             dist.get(i).set(i, 0);
         }
-
         for (VertexAdjacentList<K, V> vertex : vertexs.values()) {
             int fromIndex = vertexsIndex(vertex.getKey());
             for (Edge<K, V> edge : vertex.getEdges()) {
@@ -367,9 +366,7 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
     }
 
     public ArrayList<Edge<K, V>> prim() {
-        if (directed) {
-            throw new IllegalArgumentException("Prim's algorithm is only applicable to undirected graphs.");
-        }
+        if (directed) throw new exceptionOnGraphTypeNotAllowed("is not supported for directed graphs");
 
         HashSet<K> visited = new HashSet<>();
         PriorityQueue<Edge<K, V>> minHeap = new PriorityQueue<>(Comparator.comparingInt(Edge::getWeight));
@@ -399,10 +396,6 @@ public class GraphAdjacentList <K extends Comparable<K>,V> extends Graph<K,V>{
                     }
                 }
             }
-        }
-
-        for (Edge<K, V> edge : minimumSpanningTree) {
-            System.out.println(edge.getStart().getKey() + " - " + edge.getDestination().getKey() + " (" + edge.getWeight() + ")");
         }
 
         return minimumSpanningTree;

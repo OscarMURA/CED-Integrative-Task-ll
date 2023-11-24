@@ -9,9 +9,10 @@ import static org.junit.Assert.*;
 
 public class GraphAdjacentMatrixTest {
     private GraphAdjacentMatrix<Integer, Integer> graph;
-    private GraphAdjacentList<Integer,String> graph2;
+    private GraphAdjacentMatrix<Integer,String> graph2;
+    private GraphAdjacentMatrix<String,String> graph3;
     public void setUpStageSimpleGraph(){
-        graph = new GraphAdjacentMatrix(50,GraphType.SIMPLE);
+        graph = new GraphAdjacentMatrix(6,GraphType.SIMPLE);
         try {
             graph.addVertex(1, 1);
             graph.addVertex(2, 2);
@@ -33,7 +34,7 @@ public class GraphAdjacentMatrixTest {
     }
 
     public void setUpStageDirected(){
-        graph = new GraphAdjacentMatrix(50,GraphType.DIRECTED);
+        graph = new GraphAdjacentMatrix(11,GraphType.DIRECTED);
         try {
             graph.addVertex(1, 1);
             graph.addVertex(2, 2);
@@ -77,8 +78,7 @@ public class GraphAdjacentMatrixTest {
     }
 
     public void setUpGraphWithoutConected(){
-
-        graph = new GraphAdjacentMatrix(50,GraphType.SIMPLE);
+        graph = new GraphAdjacentMatrix(6,GraphType.SIMPLE);
         graph.addVertex(1, 1);
         graph.addVertex(2, 2);
         graph.addVertex(3, 3);
@@ -88,7 +88,7 @@ public class GraphAdjacentMatrixTest {
     }
 
     public void setUpGraphSimpleWithKeyIntAndValueString(){
-        graph2 = new GraphAdjacentList(GraphType.SIMPLE);
+        graph2 = new GraphAdjacentMatrix(4,GraphType.SIMPLE);
         try {
             graph2.addVertex(1, "1");
             graph2.addVertex(2, "2");
@@ -103,8 +103,39 @@ public class GraphAdjacentMatrixTest {
         }
 
     }
+    public void setUpGraphWithoutConnected(){
+        graph = new GraphAdjacentMatrix(6,GraphType.SIMPLE);
+        graph.addVertex(1, 1);
+        graph.addVertex(2, 2);
+        graph.addVertex(3, 3);
+        graph.addVertex(4, 4);
+        graph.addVertex(5, 5);
+        graph.addVertex(6, 6);
+    }
+
+
+
+    public void setUpGraphWithConecctionWithSameWeight(){
+        graph = new GraphAdjacentMatrix(5,GraphType.SIMPLE);
+        try {
+            graph.addVertex(1, 1);
+            graph.addVertex(2, 2);
+            graph.addVertex(3, 3);
+            graph.addVertex(4, 4);
+            graph.addVertex(5, 5);
+            graph.addEdge(1, 2, 1);
+            graph.addEdge(1, 3, 1);
+            graph.addEdge(2, 4, 1);
+            graph.addEdge(2, 5, 1);
+            graph.addEdge(3, 5, 1);
+            graph.addEdge(4, 1, 1);
+            graph.addEdge(5, 4, 1);
+        } catch (exceptionNoVertexExist | exceptionOnGraphTypeNotAllowed e) {
+            fail("Exception no expected");
+        }
+    }
     @Test
-    public void addVertexToGraph() {
+    public void testAddVertexToGraph() {
         setUpStageSimpleGraph();
         boolean added=graph.addVertex(7,7);
         assertTrue(added);
@@ -112,7 +143,7 @@ public class GraphAdjacentMatrixTest {
     }
 
     @Test
-    public void addVertexToGraphDirected(){
+    public void testAddVertexToGraphDirected(){
         setUpStageDirected();
         boolean added=graph.addVertex(12,12);
         assertTrue(added);
@@ -120,7 +151,7 @@ public class GraphAdjacentMatrixTest {
     }
 
     @Test
-    public void addVertexToGraphAlreadyExist(){
+    public void testAddVertexToGraphAlreadyExist(){
         setUpStageSimpleGraph();
         boolean added=graph.addVertex(1,1);
         assertFalse(added);
@@ -128,11 +159,12 @@ public class GraphAdjacentMatrixTest {
     }
 
 
+
     @Test
-    public void addEdgeToVertexThatNotExist(){
+    public void testAddEdgeToVertexThatNotExist(){
         setUpStageSimpleGraph();
         try {
-            graph.addEdge(7,10,10);
+            assertTrue(graph.addEdge(7,10,10));
             fail("Exception expected");
         } catch (exceptionNoVertexExist e) {
             assertNotNull(e.getMessage());
@@ -142,10 +174,10 @@ public class GraphAdjacentMatrixTest {
     }
 
     @Test
-    public void addEdgeToSameVertexInGraphSimple(){
+    public void testAddEdgeToSameVertexInGraphSimple(){
         setUpStageSimpleGraph();
         try {
-            graph.addEdge(1,1,10);
+            assertTrue(graph.addEdge(1,1,10));
             fail("Exception expected");
         } catch (exceptionNoVertexExist e) {
             fail("Exception no expected");
@@ -156,7 +188,7 @@ public class GraphAdjacentMatrixTest {
     }
 
     @Test
-    public void removeVertexOfGraphSimple() {
+    public void testRemoveVertexOfGraphSimple() {
         setUpStageSimpleGraph();
         boolean result = graph.removeVertex(1);
         assertTrue(result);
@@ -174,7 +206,7 @@ public class GraphAdjacentMatrixTest {
     }
 
     @Test
-    public void  removeVertexOfGraphDireted(){
+    public void  testRemoveVertexOfGraphDireted(){
         setUpStageDirected();
         assertEquals(11,graph.getVertexs().size());
         boolean result = graph.removeVertex(1);
@@ -203,20 +235,20 @@ public class GraphAdjacentMatrixTest {
     }
 
     @Test
-    public void removeVertexOfGraphSimpleNotExist() {
+    public void testRemoveVertexOfGraphSimpleNotExist() {
         setUpStageSimpleGraph();
         boolean result = graph.removeVertex(7);
         assertFalse(result);
     }
     @Test
-    public void removeVertexOfGraphDirectedNotExist(){
+    public void testRemoveVertexOfGraphDirectedNotExist(){
         setUpStageDirected();
         boolean result = graph.removeVertex(12);
         assertFalse(result);
     }
 
     @Test
-    public void removeEdgeConectedWithOtherEdgeList(){
+    public void testRemoveEdgeConnectedWithOtherEdgeList(){
         setUpStageSimpleGraph();
         boolean result = false;
         try {
@@ -241,7 +273,7 @@ public class GraphAdjacentMatrixTest {
     }
 
     @Test
-    public void removeEdgeConectedWithOtherEdgeListDirected(){
+    public void testRemoveEdgeConnectedWithOtherEdgeListDirected(){
         setUpStageDirected();
         boolean result = false;
         try {
@@ -301,7 +333,7 @@ public class GraphAdjacentMatrixTest {
     }
 
     @Test
-    public void removeEdgeConectedWithOtherEdgeListNotExist(){
+    public void testrRemoveEdgeConnectedWithOtherEdgeListNotExist(){
         setUpStageSimpleGraph();
         boolean result = false;
         try {
@@ -314,7 +346,7 @@ public class GraphAdjacentMatrixTest {
     }
 
     @Test
-    public void removeEdgeConectedWithOtherEdgeListDirectedNotExist(){
+    public void testRemoveEdgeConnectedWithOtherEdgeListDirectedNotExist(){
         setUpStageDirected();
         boolean result = false;
         try {
@@ -327,7 +359,7 @@ public class GraphAdjacentMatrixTest {
     }
 
     @Test
-    public void BFSwithAllVertexsConected(){
+    public void testBFSwithAllVertexsConected(){
         setUpStageDirected();
         try {
             graph.BFS(1);
@@ -348,7 +380,7 @@ public class GraphAdjacentMatrixTest {
     }
 
     @Test
-    public void BFSwithAllVertexsConectedSimple(){
+    public void testBFSwithAllVertexsConectedSimple(){
         setUpStageSimpleGraph();
         try {
             graph.BFS(1);
@@ -364,33 +396,57 @@ public class GraphAdjacentMatrixTest {
     }
 
     @Test
-    public void BFSOfGraphWithoutConection(){
-        setUpGraphWithoutConected();
+    public void testBFSOfGraphWithoutConection(){
+        setUpGraphWithoutConnected();
+        int infinity = Integer.MAX_VALUE-100;
         try {
             graph.BFS(1);
         } catch (exceptionNoVertexExist e) {
             fail("Exception no expected");
         }
-        int infinite=Integer.MAX_VALUE-100;
         assertEquals(0,graph.getVertex(1).getDistance());
         assertEquals(Color.BLACK,graph.getVertex(1).getColor());
-        assertEquals(infinite,graph.getVertex(2).getDistance());
+        assertEquals(infinity,graph.getVertex(2).getDistance());
         assertEquals(Color.WHITE,graph.getVertex(2).getColor());
-        assertEquals(infinite,graph.getVertex(3).getDistance());
+        assertEquals(infinity,graph.getVertex(3).getDistance());
         assertEquals(Color.WHITE,graph.getVertex(3).getColor());
-        assertEquals(infinite,graph.getVertex(4).getDistance());
+        assertEquals(infinity,graph.getVertex(4).getDistance());
         assertEquals(Color.WHITE,graph.getVertex(4).getColor());
-        assertEquals(infinite,graph.getVertex(5).getDistance());
+        assertEquals(infinity,graph.getVertex(5).getDistance());
         assertEquals(Color.WHITE,graph.getVertex(5).getColor());
-        assertEquals(infinite,graph.getVertex(6).getDistance());
+        assertEquals(infinity,graph.getVertex(6).getDistance());
         assertEquals(Color.WHITE,graph.getVertex(6).getColor());
     }
 
+    @Test
+    public void testBFSwithConectedGraphWithSameWeight(){
+        setUpGraphWithConecctionWithSameWeight();
+        try {
+            graph.BFS(1);
+        } catch (exceptionNoVertexExist e) {
+            fail("Exception no expected");
+        }
+        assertEquals(0,graph.getVertex(1).getDistance());
+        assertEquals(1,graph.getVertex(2).getDistance());
+        assertEquals(1,graph.getVertex(3).getDistance());
+        assertEquals(1,graph.getVertex(4).getDistance());
+        assertEquals(2,graph.getVertex(5).getDistance());
+    }
+    @Test
+    public void testBFSAndThereIsNotStartVertex(){
+        setUpStageDirected();
+        try {
+            graph.BFS(12);
+            fail("Exception expected");
+        } catch (exceptionNoVertexExist e) {
+            assertNotNull(e.getMessage());
+        }
+    }
 
     @Test
     public void testDijsktraWithAllVertexsConected(){
         setUpStageDirected();
-        ArrayList<Integer> result = new ArrayList<>(Arrays.asList(0,1,1,2,30,11,12,     21,10,14,15));
+        ArrayList<Integer> result = new ArrayList<>(Arrays.asList(0,1,1,2,30,11,12,21,10,14,15));
         ArrayList<Integer> path = new ArrayList<>();
         try {
             path=graph.dijkstra(1);
@@ -430,6 +486,7 @@ public class GraphAdjacentMatrixTest {
 
     }
 
+
     @Test
     public void testDijstraWithVertexThatNotExist(){
         setUpStageSimpleGraph();
@@ -445,8 +502,8 @@ public class GraphAdjacentMatrixTest {
     @Test
     public void testDijstraWithGraphWithOutConections(){
         setUpGraphWithoutConected();
-        Integer infinite=Integer.MAX_VALUE-100;
-        ArrayList<Integer> result = new ArrayList<>(Arrays.asList(0,infinite,infinite,infinite,infinite,infinite));
+        int infinity = Integer.MAX_VALUE-100;
+        ArrayList<Integer> result = new ArrayList<>(Arrays.asList(0,infinity,infinity,infinity,infinity,infinity));
         ArrayList<Integer> path = new ArrayList<>();
         try {
             path=graph.dijkstra(1);
@@ -454,16 +511,58 @@ public class GraphAdjacentMatrixTest {
         } catch (exceptionNoVertexExist e) {
             assertNotNull(e.getMessage());
         }
-
         assertEquals(result,path);
         assertEquals(0,graph.getVertex(1).getDistance());
-        assertEquals((int)infinite,graph.getVertex(2).getDistance());
-        assertEquals((int)infinite,graph.getVertex(3).getDistance());
-        assertEquals((int)infinite,graph.getVertex(4).getDistance());
-        assertEquals((int)infinite,graph.getVertex(5).getDistance());
-        assertEquals((int)infinite,graph.getVertex(6).getDistance());
+        assertEquals(infinity,graph.getVertex(2).getDistance());
+        assertEquals(infinity,graph.getVertex(3).getDistance());
+        assertEquals(infinity,graph.getVertex(4).getDistance());
+        assertEquals(infinity,graph.getVertex(5).getDistance());
+        assertEquals(infinity,graph.getVertex(6).getDistance());
     }
+    @Test
+    public void testDijstraConectedGrapWithSameWeight(){
+        setUpGraphWithConecctionWithSameWeight();
+        ArrayList<Integer> result = new ArrayList<>(Arrays.asList(0,1,1,1,2));
+        ArrayList<Integer> path = new ArrayList<>();
+        try {
+            path=graph.dijkstra(1);
+        } catch (exceptionNoVertexExist e) {
+            fail("Exception no expected");
+        }
+        assertEquals(result,path);
+        assertEquals(0,graph.getVertex(1).getDistance());
+        assertEquals(1,graph.getVertex(2).getDistance());
+        assertEquals(1,graph.getVertex(3).getDistance());
+        assertEquals(1,graph.getVertex(4).getDistance());
+        assertEquals(2,graph.getVertex(5).getDistance());
+    }
+    @Test
+    public void testKruskalConectedGraphWithSameWeight(){
+        setUpGraphWithConecctionWithSameWeight();
+        ArrayList<Edge<Integer,Integer>> result=graph.kruskal();
+        Edge<Integer,Integer> edge1 = new Edge<>(graph.getVertex(1),graph.getVertex(2),1);
+        Edge<Integer,Integer> edge2 = new Edge<>(graph.getVertex(1),graph.getVertex(3),1);
+        Edge<Integer,Integer> edge3 = new Edge<>(graph.getVertex(2),graph.getVertex(4),1);
+        Edge<Integer,Integer> edge4 = new Edge<>(graph.getVertex(2),graph.getVertex(5),1);
+        Edge<Integer,Integer> edge5 = new Edge<>(graph.getVertex(3),graph.getVertex(5),1);
 
+        assertEquals(edge1.getStart(),result.get(0).getStart());
+        assertEquals(edge1.getDestination(),result.get(0).getDestination());
+        assertEquals(edge1.getWeight(),result.get(0).getWeight());
+
+        assertEquals(edge2.getStart(),result.get(1).getStart());
+        assertEquals(edge2.getDestination(),result.get(1).getDestination());
+        assertEquals(edge2.getWeight(),result.get(1).getWeight());
+
+        assertEquals(edge3.getStart(),result.get(2).getStart());
+        assertEquals(edge3.getDestination(),result.get(2).getDestination());
+        assertEquals(edge3.getWeight(),result.get(2).getWeight());
+
+        assertEquals(edge4.getStart(),result.get(3).getStart());
+        assertEquals(edge4.getDestination(),result.get(3).getDestination());
+        assertEquals(edge4.getWeight(),result.get(3).getWeight());
+
+    }
     @Test
     public void testKruskalSimple(){
         setUpGraphSimpleWithKeyIntAndValueString();
@@ -505,6 +604,28 @@ public class GraphAdjacentMatrixTest {
         }
     }
 
+    @Test
+    public void testDFSwithConectedGraphSameWeight(){
+        setUpGraphWithConecctionWithSameWeight();
+
+        try {
+            graph.DFS();
+        } catch (exceptionNoVertexExist e) {
+            fail("Exception no expected");
+        }
+
+
+        Vertex vertex=graph.getVertex(1);
+        assertEquals(10,vertex.getFinishTime());
+        vertex=graph.getVertex(2);
+        assertEquals(9, vertex.getFinishTime());
+        vertex=graph.getVertex(3);
+        assertEquals(6, vertex.getFinishTime());
+        vertex=graph.getVertex(4);
+        assertEquals(8, vertex.getFinishTime());
+        vertex=graph.getVertex(5);
+        assertEquals(7, vertex.getFinishTime());
+    }
     @Test
     public void testDFSWihtGraphSimple(){
         setUpStageSimpleGraph();
@@ -558,13 +679,14 @@ public class GraphAdjacentMatrixTest {
         vertex=graph.getVertex(11);
         assertEquals(9, vertex.getFinishTime());
     }
+
     @Test
     public void testDFSWihtGraphWithoutConected(){
         setUpGraphWithoutConected();
         try {
             graph.DFS();
         } catch (exceptionNoVertexExist e) {
-            throw new RuntimeException(e);
+            fail("Exception no expected");
         }
         Vertex vertex=graph.getVertex(1);
         assertEquals(2,vertex.getFinishTime());
@@ -578,6 +700,37 @@ public class GraphAdjacentMatrixTest {
         assertEquals(10, vertex.getFinishTime());
         vertex=graph.getVertex(6);
         assertEquals(12, vertex.getFinishTime());
+
+    }
+    @Test
+    public void testFloydWarshallOfConectedGraphWirhSameWeight(){
+        setUpGraphWithConecctionWithSameWeight();
+        ArrayList<ArrayList<Integer>> result = graph.floydWarshall();
+        assertEquals(0,result.get(0).get(0).intValue());
+        assertEquals(1,result.get(0).get(1).intValue());
+        assertEquals(1,result.get(0).get(2).intValue());
+        assertEquals(1,result.get(0).get(3).intValue());
+        assertEquals(2,result.get(0).get(4).intValue());
+        assertEquals(1,result.get(1).get(0).intValue());
+        assertEquals(0,result.get(1).get(1).intValue());
+        assertEquals(2,result.get(1).get(2).intValue());
+        assertEquals(1,result.get(1).get(3).intValue());
+        assertEquals(1,result.get(1).get(4).intValue());
+        assertEquals(1,result.get(2).get(0).intValue());
+        assertEquals(2,result.get(2).get(1).intValue());
+        assertEquals(0,result.get(2).get(2).intValue());
+        assertEquals(2,result.get(2).get(3).intValue());
+        assertEquals(1,result.get(2).get(4).intValue());
+        assertEquals(1,result.get(3).get(0).intValue());
+        assertEquals(1,result.get(3).get(1).intValue());
+        assertEquals(2,result.get(3).get(2).intValue());
+        assertEquals(0,result.get(3).get(3).intValue());
+        assertEquals(1,result.get(3).get(4).intValue());
+        assertEquals(2,result.get(4).get(0).intValue());
+        assertEquals(1,result.get(4).get(1).intValue());
+        assertEquals(1,result.get(4).get(2).intValue());
+        assertEquals(1,result.get(4).get(3).intValue());
+        assertEquals(0,result.get(4).get(4).intValue());
     }
 
     @Test
@@ -648,7 +801,7 @@ public class GraphAdjacentMatrixTest {
     }
 
     @Test
-    public void testOfGraphSimpleWithKeyIntAndValueString(){
+    public void testFloydWarshallOfGraphSimpleWithKeyIntAndValueString(){
         setUpGraphSimpleWithKeyIntAndValueString();
         int infinity = 1000000;
         ArrayList<ArrayList<Integer>> result = graph2.floydWarshall();
@@ -685,7 +838,6 @@ public class GraphAdjacentMatrixTest {
         Edge<Integer,Integer> edge2= new Edge<>(graph.getVertex(2),graph.getVertex(5),1);
         Edge<Integer,Integer> edge3 = new Edge<>(graph.getVertex(1),graph.getVertex(3),2);
         Edge<Integer,Integer> edge4 = new Edge<>(graph.getVertex(2),graph.getVertex(4),3);
-        Edge<Integer,Integer> edge5 = new Edge<>(graph.getVertex(5),graph.getVertex(6),5);
 
         assertEquals(edge1.getStart(),result.get(0).getStart());
         assertEquals(edge1.getDestination(),result.get(0).getDestination());
@@ -704,6 +856,44 @@ public class GraphAdjacentMatrixTest {
         assertEquals(edge4.getWeight(),result.get(3).getWeight());
 
     }
+
+    @Test
+    public void testPrimOfGraphDirected(){
+        setUpStageDirected();
+        try{
+            graph.prim();
+            fail("Exception expected");
+        } catch (UnsupportedOperationException e) {
+            assertNotNull(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testPrimOfGraphWithSameWeight(){
+        setUpGraphWithConecctionWithSameWeight();
+        ArrayList<Edge<Integer,Integer>> result = graph.prim();
+        Edge<Integer,Integer> edge1 = new Edge<>(graph.getVertex(1),graph.getVertex(2),1);
+        Edge<Integer,Integer> edge2 = new Edge<>(graph.getVertex(1),graph.getVertex(4),1);
+        Edge<Integer,Integer> edge3 = new Edge<>(graph.getVertex(2),graph.getVertex(5),1);
+        Edge<Integer,Integer> edge4 = new Edge<>(graph.getVertex(5),graph.getVertex(3),1);
+
+        assertEquals(edge1.getStart(),result.get(0).getStart());
+        assertEquals(edge1.getDestination(),result.get(0).getDestination());
+        assertEquals(edge1.getWeight(),result.get(0).getWeight());
+
+        assertEquals(edge2.getStart(),result.get(1).getStart());
+        assertEquals(edge2.getDestination(),result.get(1).getDestination());
+        assertEquals(edge2.getWeight(),result.get(1).getWeight());
+
+        assertEquals(edge3.getStart(),result.get(2).getStart());
+        assertEquals(edge3.getDestination(),result.get(2).getDestination());
+        assertEquals(edge3.getWeight(),result.get(2).getWeight());
+
+        assertEquals(edge4.getStart(),result.get(3).getStart());
+        assertEquals(edge4.getDestination(),result.get(3).getDestination());
+        assertEquals(edge4.getWeight(),result.get(3).getWeight());
+    }
+
 
 
 }

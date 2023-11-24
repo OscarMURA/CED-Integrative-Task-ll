@@ -145,6 +145,8 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
             vertex.setPredecessor(null);
         }
         Vertex<K,V> vertex = vertexs.get(keyVertex);
+        if(vertex==null)
+            throw new exceptionNoVertexExist(keyVertex.toString());
         vertex.setColor(Color.GRAY);
         vertex.setDistance(0);
         Queue<Vertex<K, V>> queue = new LinkedList<>();
@@ -355,14 +357,12 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
 
     public ArrayList<Edge<K, V>> prim() {
         if (directed) {
-            throw new IllegalArgumentException("Prim's algorithm is only applicable to undirected graphs.");
+            throw new exceptionOnGraphTypeNotAllowed("is not supported for directed graphs");
         }
 
         HashSet<K> visited = new HashSet<>();
         PriorityQueue<Edge<K, V>> minHeap = new PriorityQueue<>(Comparator.comparingInt(Edge::getWeight));
         ArrayList<Edge<K, V>> minimumSpanningTree = new ArrayList<>();
-
-        // Escoge el primer vértice como punto de inicio
         K startVertex = vertexs.keySet().iterator().next();
         visited.add(startVertex);
 
@@ -395,12 +395,10 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
             visited.add(startVertex);
         }
 
+
         return minimumSpanningTree;
     }
 
-
-
-    // Método auxiliar para obtener la clave del vértice según su índice en la matriz
     private K getKeyByIndex(int index) {
         for (Map.Entry<K, Integer> entry : vertexesPosition.entrySet()) {
             if (entry.getValue() == index) {
@@ -409,6 +407,7 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
         }
         return null;
     }
+
 
 
 
