@@ -58,7 +58,6 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
 
     private int indexVertex(K key) {
         Integer index = vertexesPosition.get(key);
-
         return index == null ? -1 : index;
     }
 

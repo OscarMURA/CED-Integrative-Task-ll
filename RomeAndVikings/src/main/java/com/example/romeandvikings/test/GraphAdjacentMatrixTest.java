@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class GraphAdjacentMatrixTest {
     private GraphAdjacentMatrix<Integer, Integer> graph;
     private GraphAdjacentMatrix<Integer,String> graph2;
-    private GraphAdjacentMatrix<String,String> graph3;
+
     public void setUpStageSimpleGraph(){
         graph = new GraphAdjacentMatrix(6,GraphType.SIMPLE);
         try {
@@ -103,15 +103,7 @@ public class GraphAdjacentMatrixTest {
         }
 
     }
-    public void setUpGraphWithoutConnected(){
-        graph = new GraphAdjacentMatrix(6,GraphType.SIMPLE);
-        graph.addVertex(1, 1);
-        graph.addVertex(2, 2);
-        graph.addVertex(3, 3);
-        graph.addVertex(4, 4);
-        graph.addVertex(5, 5);
-        graph.addVertex(6, 6);
-    }
+
 
 
 
@@ -397,7 +389,7 @@ public class GraphAdjacentMatrixTest {
 
     @Test
     public void testBFSOfGraphWithoutConection(){
-        setUpGraphWithoutConnected();
+        setUpGraphWithoutConected();
         int infinity = Integer.MAX_VALUE-100;
         try {
             graph.BFS(1);
