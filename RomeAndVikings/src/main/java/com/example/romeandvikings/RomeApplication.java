@@ -16,6 +16,8 @@ import java.util.logging.Logger;
  */
 public class RomeApplication extends Application {
 
+    private AudioManager audioManager;
+
     /**
      * This function starts a JavaFX application, sets the title and icon of the stage, loads a scene
      * from an FXML file, sets the scene on the stage, and plays background music using an
@@ -32,8 +34,9 @@ public class RomeApplication extends Application {
         stage.getIcons().add(new Image(RomeApplication.class.getResource("images/romaHelmet.jpg").toExternalForm()));
         stage.setScene(scene);
         stage.show();
-        AudioManager.getInstance().setMusicPath("/rome.wav");
-        AudioManager.getInstance().playMusic(1000);
+        audioManager = AudioManager.getInstance();
+        audioManager.setMusicPath("/rome.wav");
+        audioManager.playMusic(1000);
     }
 
     /**
