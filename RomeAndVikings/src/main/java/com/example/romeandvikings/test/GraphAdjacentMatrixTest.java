@@ -596,6 +596,10 @@ public class GraphAdjacentMatrixTest {
             fail("Exception no expected");
         }
     }
+    // The above code is testing the Kruskal's algorithm implementation for a connected graph with
+    // edges of the same weight. It sets up a graph with connections of the same weight, then calls the
+    // `kruskal()` method on the graph to get the result. The code then compares the expected edges
+    // with the actual edges returned by the algorithm to ensure they match.
     @Test
     public void testKruskalConectedGraphWithSameWeight(){
         setUpGraphWithConecctionWithSameWeight();
@@ -623,6 +627,10 @@ public class GraphAdjacentMatrixTest {
         assertEquals(edge4.getWeight(),result.get(3).getWeight());
 
     }
+    /**
+     * The testKruskalSimple function tests the Kruskal's algorithm implementation on a simple graph
+     * with integer keys and string values.
+     */
     @Test
     public void testKruskalSimple(){
         setUpGraphSimpleWithKeyIntAndValueString();
@@ -646,6 +654,10 @@ public class GraphAdjacentMatrixTest {
 
     }
 
+    /**
+     * The testKruskalWithGraphWithoutConected function tests the Kruskal algorithm on a graph without
+     * any connected components.
+     */
     @Test
     public void testKruskalWithGraphWithoutConected(){
         setUpGraphWithoutConected();
@@ -653,6 +665,10 @@ public class GraphAdjacentMatrixTest {
         assertEquals(0,result.size());
     }
 
+    /**
+     * The testKruskalWithGraphWithoutConectedDirected function tests if an UnsupportedOperationException
+     * is thrown when calling the kruskal method on a graph that is not connected and directed.
+     */
     @Test
     public void testKruskalWithGraphWithoutConectedDirected(){
         setUpStageDirected();
@@ -664,6 +680,10 @@ public class GraphAdjacentMatrixTest {
         }
     }
 
+    /**
+     * The testDFSwithConectedGraphSameWeight function tests the Depth First Search algorithm on a
+     * connected graph with vertices of the same weight.
+     */
     @Test
     public void testDFSwithConectedGraphSameWeight(){
         setUpGraphWithConecctionWithSameWeight();
@@ -686,6 +706,10 @@ public class GraphAdjacentMatrixTest {
         vertex=graph.getVertex(5);
         assertEquals(7, vertex.getFinishTime());
     }
+    /**
+     * The testDFSWihtGraphSimple function tests the Depth First Search algorithm on a simple graph and
+     * checks if the finish times of the vertices are correct.
+     */
     @Test
     public void testDFSWihtGraphSimple(){
         setUpStageSimpleGraph();
@@ -708,6 +732,11 @@ public class GraphAdjacentMatrixTest {
         assertEquals(9, vertex.getFinishTime());
     }
 
+    
+    /**
+     * The testDFSWihtGraphDirected function tests the Depth First Search algorithm on a directed graph
+     * and checks if the finish times of the vertices are correct.
+     */
     @Test
     public void testDFSWihtGraphDirected(){
         setUpStageDirected();
@@ -740,6 +769,9 @@ public class GraphAdjacentMatrixTest {
         assertEquals(9, vertex.getFinishTime());
     }
 
+    // Testing the DFS algorithm on a graph that is not
+    // connected. It sets up the graph, calls the DFS method, and then checks the finish times of each
+    // vertex to ensure they are correct.
     @Test
     public void testDFSWihtGraphWithoutConected(){
         setUpGraphWithoutConected();
@@ -762,6 +794,11 @@ public class GraphAdjacentMatrixTest {
         assertEquals(12, vertex.getFinishTime());
 
     }
+
+    /**
+     * The testFloydWarshallOfConectedGraphWirhSameWeight function tests the Floyd-Warshall algorithm
+     * on a connected graph with edges of the same weight.
+     */
     @Test
     public void testFloydWarshallOfConectedGraphWirhSameWeight(){
         setUpGraphWithConecctionWithSameWeight();
@@ -793,6 +830,10 @@ public class GraphAdjacentMatrixTest {
         assertEquals(0,result.get(4).get(4).intValue());
     }
 
+    /**
+     * The testfloydWarshallOfGraphWithoutConnections function tests the Floyd-Warshall algorithm on a
+     * graph without any connections.
+     */
     @Test
     public void testfloydWarshallOfGraphWithoutConnections(){
         setUpGraphWithoutConected();
@@ -825,6 +866,10 @@ public class GraphAdjacentMatrixTest {
         assertEquals(0,result.get(4).get(4).intValue());
     }
 
+    /**
+     * The testFloyWarshallWithGraphSimple function tests the correctness of the Floyd-Warshall
+     * algorithm implementation on a simple graph.
+     */
     @Test
     public void testFloyWarshallWithGraphSimple(){
         setUpStageSimpleGraph();
@@ -860,6 +905,10 @@ public class GraphAdjacentMatrixTest {
         assertEquals(6,result.get(5).get(1).intValue());
     }
 
+    /**
+     * The testFloydWarshallOfGraphSimpleWithKeyIntAndValueString function tests the Floyd-Warshall
+     * algorithm on a graph with integer keys and string values.
+     */
     @Test
     public void testFloydWarshallOfGraphSimpleWithKeyIntAndValueString(){
         setUpGraphSimpleWithKeyIntAndValueString();
@@ -883,6 +932,9 @@ public class GraphAdjacentMatrixTest {
         assertEquals(0,result.get(3).get(3).intValue());
     }
 
+    /**
+    * The function tests the prim() method of a graph object without any connections.
+    */
     @Test
     public void testPrimOfGraphWithoutConnections(){
         setUpGraphWithoutConected();
@@ -890,6 +942,10 @@ public class GraphAdjacentMatrixTest {
         assertEquals(0,result.size());
     }
 
+    /**
+     * The testPrimOfGrapSimple function tests the prim() method of a graph by comparing the expected
+     * output with the actual output.
+     */
     @Test
     public void testPrimOfGrapSimple(){
         setUpStageSimpleGraph();
@@ -917,6 +973,10 @@ public class GraphAdjacentMatrixTest {
 
     }
 
+/**
+ * The testPrimOfGraphDirected function tests if the prim() method throws an
+ * UnsupportedOperationException when called on a directed graph.
+ */
     @Test
     public void testPrimOfGraphDirected(){
         setUpStageDirected();
@@ -928,6 +988,10 @@ public class GraphAdjacentMatrixTest {
         }
     }
 
+    /**
+     * The testPrimOfGraphWithSameWeight function tests the prim() method of a graph with edges of the
+     * same weight.
+     */
     @Test
     public void testPrimOfGraphWithSameWeight(){
         setUpGraphWithConecctionWithSameWeight();
