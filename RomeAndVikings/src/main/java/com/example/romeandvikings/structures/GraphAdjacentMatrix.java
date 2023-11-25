@@ -6,11 +6,17 @@ import com.example.romeandvikings.exceptions.exceptionOnGraphTypeNotAllowed;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The class `GraphAdjacentMatrix` is a Java implementation of a graph using an adjacency matrix.
+ */
 public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> {
 
     private HashMap<K, Vertex<K, V>> vertexs;
     private ArrayList<Integer>[][] matrix;
 
+    /** The above code is defining a constructor for a class called GraphAdjacentMatrix. This
+    * constructor takes two parameters: vertexNumber, which represents the number of vertices in the
+    * graph, and type, which represents the type of the graph. */
     public GraphAdjacentMatrix(int vertexNumber, GraphType type) {
         super(type);
         vertexs = new HashMap<>();
@@ -28,6 +34,16 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
     }
 
 
+    /**
+     * The addVertex function adds a new vertex to a graph if it doesn't already exist.
+     * 
+     * @param key The key is the unique identifier for the vertex. It is used to store and retrieve the
+     * vertex from the graph.
+     * @param value The value parameter represents the value associated with the vertex being added.
+     * @return The method is returning a boolean value. It returns true if a vertex with the specified
+     * key does not already exist and is successfully added to the graph. It returns false if a vertex
+     * with the specified key already exists and cannot be added.
+     */
     @Override
     public boolean addVertex(K key, V value) {
         if (!vertexs.containsKey(key)) {
@@ -39,6 +55,14 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
 
     }
 
+    /**
+     * The removeVertex function removes a vertex from a graph and clears all edges connected to that
+     * vertex.
+     * 
+     * @param key The key of the vertex that needs to be removed from the graph.
+     * @return The method is returning a boolean value. It returns true if the vertex with the
+     * specified key was successfully removed, and false otherwise.
+     */
     @Override
     public boolean removeVertex(K key) {
         Vertex<K, V> vertex = vertexs.remove(key);
@@ -56,16 +80,39 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
         return false;
     }
 
+    /**
+     * The function returns the index of a vertex in a graph based on its key, or -1 if the vertex is
+     * not found.
+     * 
+     * @param key The key parameter is of type K, which represents the type of the key used to identify
+     * a vertex in a graph.
+     * @return The method is returning an integer value. If the key is found in the vertexesPosition
+     * map, the corresponding index value is returned. If the key is not found, -1 is returned.
+     */
     private int indexVertex(K key) {
         Integer index = vertexesPosition.get(key);
         return index == null ? -1 : index;
     }
 
+    /**
+     * The function returns the vertex associated with the given key.
+     * 
+     * @param key The key parameter is of type K, which represents the key used to identify the vertex
+     * in the graph.
+     * @return The method is returning a Vertex object with the specified key.
+     */
     @Override
     public Vertex<K, V> getVertex(K key) {
         return vertexs.get(key);
     }
 
+    /**
+     * The function checks if two vertex keys exist in a map and throws an exception if either key is
+     * not found.
+     * 
+     * @param key1 The first key parameter used to check if a vertex exists in the vertexs map.
+     * @param key2 The key2 parameter is a key used to identify a vertex in a graph.
+     */
     public void vertexsExist(K key1, K key2) throws exceptionNoVertexExist {
         if (!vertexs.containsKey(key1)) {
             throw new exceptionNoVertexExist(key1.toString());
@@ -75,6 +122,18 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
         }
     }
 
+   /**
+    * The addEdge function adds an edge between two vertices in a graph, with an optional weight, and
+    * checks for graph type restrictions.
+    * 
+    * @param key1 The key of the first vertex in the edge.
+    * @param key2 The parameter "key2" is the key of the second vertex in the graph. It is used to
+    * identify the second vertex when adding an edge between two vertices.
+    * @param weight The weight parameter represents the weight or cost associated with the edge between
+    * two vertices. It is an integer value that indicates the strength or distance between the
+    * vertices.
+    * @return The method is returning a boolean value, which is true.
+    */
     @Override
     public boolean addEdge(K key1, K key2, int weight) throws exceptionNoVertexExist, exceptionOnGraphTypeNotAllowed {
         vertexsExist(key1, key2);
@@ -99,6 +158,15 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
     }
 
 
+    /**
+     * The removeEdge function removes an edge between two vertices in a graph.
+     * 
+     * @param key1 The key of the first vertex in the edge to be removed.
+     * @param key2 The parameter "key2" represents the key of the second vertex in the edge that needs
+     * to be removed.
+     * @return The method is returning a boolean value. If the edge between the two specified vertices
+     * is successfully removed, the method returns true. Otherwise, it returns false.
+     */
     @Override
     public boolean removeEdge(K key1, K key2) throws exceptionNoVertexExist {
         vertexsExist(key1, key2);
@@ -129,6 +197,13 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
         return false;
     }
 
+    /**
+     * The adjacent function checks if two vertices are adjacent in a graph.
+     * 
+     * @param keyVertex1 The first key of the vertex to check adjacency for.
+     * @param keyVertex2 The key of the second vertex.
+     * @return The method is returning a boolean value.
+     */
     @Override
     public boolean adjacent(K keyVertex1, K keyVertex2) throws exceptionNoVertexExist {
         vertexsExist(keyVertex1, keyVertex2);
@@ -136,6 +211,11 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
 
     }
 
+    /**
+     * The BFS function performs a breadth-first search on a graph starting from a specified vertex.
+     * 
+     * @param keyVertex The key of the starting vertex for the breadth-first search.
+     */
     @Override
     public void BFS(K keyVertex) throws exceptionNoVertexExist {
         for (Vertex<K, V> vertex : vertexs.values()) {
@@ -166,6 +246,10 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
 
     }
 
+    /**
+     * The DFS function performs a depth-first search on a graph, starting from each vertex and marking
+     * them as visited.
+     */
     @Override
     public void DFS() throws exceptionNoVertexExist {
         for (Vertex<K, V> vertex : vertexs.values()) {
@@ -180,6 +264,13 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
         }
     }
 
+    /**
+     * The DFS function performs a depth-first search on a graph starting from a given vertex.
+     * 
+     * @param vertex The parameter "vertex" is an instance of the Vertex class, which represents a
+     * vertex in a graph. It has two generic types, K and V, representing the key and value associated
+     * with the vertex.
+     */
     private void DFS(Vertex<K, V> vertex) throws exceptionNoVertexExist {
         time++;
         vertex.setDiscoveryTime(time);
@@ -195,6 +286,14 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
         vertex.setFinishTime(time);
     }
 
+    /**
+     * The dijkstra function implements Dijkstra's algorithm to find the shortest path from a source
+     * vertex to all other vertices in a graph.
+     * 
+     * @param keyVertexSource The key of the source vertex from which the Dijkstra's algorithm will
+     * start.
+     * @return The method is returning an ArrayList of integers.
+     */
     @Override
     public ArrayList<Integer> dijkstra(K keyVertexSource) throws exceptionNoVertexExist {
         if(!vertexs.containsKey(keyVertexSource)){
@@ -229,6 +328,17 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
         }
         return vertexs.values().stream().map(Vertex::getDistance).collect(Collectors.toCollection(ArrayList::new));
     }
+    /**
+     * The function calculates the shortest path between two nodes in a graph using Dijkstra's
+     * algorithm.
+     * 
+     * @param startNode The startNode parameter represents the starting node of the shortest path. It
+     * is of type K, which is a generic type representing the key of the vertex in the graph.
+     * @param endNode The endNode parameter represents the node that we want to find the shortest path
+     * to from the startNode.
+     * @return The method is returning an ArrayList of Integers, which represents the shortest path
+     * from the startNode to the endNode.
+     */
     @Override
     public ArrayList<Integer> shortestPath(K startNode, K endNode) throws exceptionNoVertexExist {
         if (!vertexs.containsKey(startNode) || !vertexs.containsKey(endNode)) {
@@ -272,6 +382,12 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
     }
 
 
+    /**
+     * The function `kruskal` implements the Kruskal's algorithm to find the minimum spanning tree of
+     * an undirected graph.
+     * 
+     * @return The method `kruskal()` returns an `ArrayList` of `Edge<K, V>` objects.
+     */
     @Override
     public ArrayList<Edge<K, V>> kruskal() throws exceptionOnGraphTypeNotAllowed {
         if(directed) throw new exceptionOnGraphTypeNotAllowed("be not undirected. ");
@@ -292,6 +408,11 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
         return edgesG;
     }
 
+    /**
+     * The function returns a LinkedList of edges.
+     * 
+     * @return A LinkedList of Edge objects.
+     */
     @Override
     public LinkedList<Edge<K, V>> getEdge() {
         return edges;
@@ -299,6 +420,12 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
 
 
 
+    /**
+     * The function floydWarshall() implements the Floyd-Warshall algorithm to find the shortest
+     * distances between all pairs of vertices in a graph represented by a matrix.
+     * 
+     * @return The method is returning an ArrayList of ArrayLists of Integers.
+     */
     public ArrayList<ArrayList<Integer>> floydWarshall() {
         int n = matrix.length;
         ArrayList<ArrayList<Integer>> distance = new ArrayList<>();
@@ -338,9 +465,19 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
         return distance;
     }
 
+    /**
+     * The function returns a HashMap containing the vertices.
+     * 
+     * @return A HashMap containing vertices.
+     */
     public HashMap<K,Vertex<K,V>> getVertexs() {
         return vertexs;
     }
+    /**
+     * The toString() function returns a string representation of the vertices and edges in a graph.
+     * 
+     * @return The method is returning a string representation of the vertices and edges in the graph.
+     */
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Vertices:\n");
@@ -354,6 +491,12 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
         return sb.toString();
     }
 
+    /**
+     * The `prim()` function implements Prim's algorithm to find the minimum spanning tree of an
+     * undirected graph.
+     * 
+     * @return The method `prim()` returns an `ArrayList` of `Edge<K, V>`.
+     */
     public ArrayList<Edge<K, V>> prim() {
         if (directed) {
             throw new exceptionOnGraphTypeNotAllowed("is not supported for directed graphs");
@@ -398,6 +541,13 @@ public class GraphAdjacentMatrix<K extends Comparable<K>,V>  extends Graph<K,V> 
         return minimumSpanningTree;
     }
 
+    /**
+     * The function `getKeyByIndex` returns the key associated with a given index in a map.
+     * 
+     * @param index The parameter "index" is an integer representing the position or index of a vertex
+     * in a map called "vertexesPosition".
+     * @return The method is returning an object of type K, which is the key of a map entry.
+     */
     private K getKeyByIndex(int index) {
         for (Map.Entry<K, Integer> entry : vertexesPosition.entrySet()) {
             if (entry.getValue() == index) {

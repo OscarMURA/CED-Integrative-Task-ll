@@ -5,6 +5,10 @@ import com.example.romeandvikings.exceptions.exceptionOnGraphTypeNotAllowed;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+/** The `IGraph` interface defines the methods and functionality that a graph data structure should
+* have. It is a generic interface, where `K` represents the key type and `V` represents the value type
+* of the vertices in the graph.
+*/
 public interface IGraph<K extends Comparable<K>,V> {
     boolean addVertex(K key, V value) throws exceptionNoVertexExist;
     boolean removeVertex(K key);

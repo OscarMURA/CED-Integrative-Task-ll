@@ -14,12 +14,21 @@ import javafx.scene.paint.Color;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * The Map class represents a map with cities and routes, and provides methods to add cities and routes
+ * to the map.
+ */
 public class Map {
 
     private IGraph<Integer, City> map;
     private HashMap<Integer, RadioButton> radioButtons;
     private HashMap<Integer, Line> lines;
 
+    /** This is a constructor for the `Map` class. It takes an `Implementation` enum as a parameter and
+    * initializes the `map` variable based on the enum value. If the enum value is `ADJACENCY_LIST`,
+    * it creates a new `GraphAdjacentList` object with `GraphType.SIMPLE`. Otherwise, it creates a new
+    * `GraphAdjacentMatrix` object with a size of 50 and `GraphType.SIMPLE`.
+    */
     public Map(Implementation implementationEnum) throws exceptionNoVertexExist, exceptionOnGraphTypeNotAllowed {
         if (implementationEnum == Implementation.ADJACENCY_LIST) {
             map = new GraphAdjacentList<>(GraphType.SIMPLE);
@@ -32,6 +41,9 @@ public class Map {
         addRoutes();
     }
 
+    /**
+     * The function "addCities" adds cities to a map and creates radio buttons for each city.
+     */
     public void addCities() throws exceptionNoVertexExist {
 
         int[] positionsLevel0 = {20, 80, 150, 214, 320, 430, 510, 550,   540, 560, 520, 540, 560, 520, 540, 580};
@@ -125,10 +137,14 @@ public class Map {
 
     }
 
+    /**
+     * The function "addRoutes" adds routes between cities in a graph, creates lines to represent the
+     * routes on a GUI, and assigns tooltips to the lines with the difficulty of each route.
+     */
     public void addRoutes() throws exceptionNoVertexExist, exceptionOnGraphTypeNotAllowed {
         Random random = new Random();
 
-        Route[] routes = new Route[57]; //57
+        Route[] routes = new Route[57];
 
         routes[0] = new Route(6, 0, random.nextInt(20) + 1);
         routes[1] = new Route(0, 7, random.nextInt(20) + 1);
@@ -142,7 +158,7 @@ public class Map {
         routes[9] = new Route(5, 6, random.nextInt(20) + 1);
         routes[10] = new Route(46, 47, random.nextInt(20) + 1);
 
-        //segunda parte 9 - 15
+
         routes[11] = new Route(8, 16, random.nextInt(20) + 1);
         routes[12] = new Route(1, 9, random.nextInt(20) + 1);
         routes[13] = new Route(3, 10, random.nextInt(20) + 1);
@@ -153,7 +169,7 @@ public class Map {
         routes[18] = new Route(7, 16, random.nextInt(20) + 1);
         routes[19] = new Route(13, 12, random.nextInt(20) + 1);
 
-        //tercera
+
 
         routes[20] = new Route(10, 17, random.nextInt(20) + 1);
         routes[21] = new Route(11, 18, random.nextInt(20) + 1);
@@ -165,7 +181,7 @@ public class Map {
         routes[27] = new Route(16, 24, random.nextInt(20) + 1);
 
 
-        //cuarta
+
 
         routes[28] = new Route(17, 25, random.nextInt(20) + 1);
         routes[29] = new Route(18, 26, random.nextInt(20) + 1);
@@ -190,7 +206,7 @@ public class Map {
         routes[45] = new Route(33, 41, random.nextInt(20) + 1);
 
 
-        //sexta
+
 
         routes[46] = new Route(34, 43, random.nextInt(20) + 1);
         routes[47] = new Route(35, 43, random.nextInt(20) + 1);
@@ -199,7 +215,7 @@ public class Map {
         routes[50] = new Route(38, 45, random.nextInt(20) + 1);
         routes[51] = new Route(47, 39, random.nextInt(20) + 1);
 
-        //union sexta con primera
+
 
         routes[52] = new Route(40, 48, random.nextInt(20) + 1);
         routes[53] = new Route(41, 40, random.nextInt(20) + 1);
@@ -228,14 +244,30 @@ public class Map {
 
     }
 
+    /**
+     * The function returns a graph containing integer vertices and City objects as the data for each
+     * vertex.
+     * 
+     * @return The method is returning an IGraph object, which is a graph data structure.
+     */
     public IGraph<Integer, City> getGraph() {
         return map;
     }
 
+    /**
+     * The function returns a HashMap containing Integer keys and RadioButton values.
+     * 
+     * @return A HashMap<Integer, RadioButton> is being returned.
+     */
     public HashMap<Integer, RadioButton> getRadioButtons() {
         return radioButtons;
     }
 
+   /**
+    * The function returns a HashMap containing Line objects, with Integer keys.
+    * 
+    * @return A HashMap<Integer, Line> is being returned.
+    */
     public HashMap<Integer, Line> getLines() {
         return lines;
     }

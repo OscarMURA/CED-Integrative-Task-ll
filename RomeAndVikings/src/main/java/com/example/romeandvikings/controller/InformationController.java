@@ -17,6 +17,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 
+/**
+ * The InformationController class is a Java class that likely handles information-related operations
+ * or functions.
+ */
 public class InformationController {
     @FXML
     private ComboBox<String> graphComboBox;
@@ -24,6 +28,10 @@ public class InformationController {
     @FXML
     private Button buttonPlay;
 
+    /**
+     * The function checks if a graph implementation is selected, sets the implementation type, and
+     * closes the current window.
+     */
     @FXML
     protected void onStartButtonClick() throws exceptionNoVertexExist, exceptionOnGraphTypeNotAllowed {
         String implementation = graphComboBox.getValue();
@@ -43,6 +51,14 @@ public class InformationController {
 
     }
 
+    /**
+     * The function obtains a controller window by loading an FXML file and displaying it in a new
+     * stage.
+     * 
+     * @param fxmlName The name of the FXML file (without the .fxml extension) that you want to load.
+     * @param stageTitle The title of the new stage/window that will be displayed.
+     * @return The method is returning an instance of FXMLLoader.
+     */
     public FXMLLoader obtainControllerWindow(String fxmlName, String stageTitle) {
         Parent rootNode;
         FXMLLoader fxmlLoader = new FXMLLoader(RomeApplication.class.getResource(fxmlName + ".fxml"));
