@@ -1,0 +1,7 @@
+module:com.example.romeandvikings
+com.example.romeandvikings
+com.example.romeandvikings.controller
+com.example.romeandvikings.exceptions
+com.example.romeandvikings.model
+com.example.romeandvikings.structures
+com.example.romeandvikings.test
