@@ -1,8 +1,11 @@
 # CED-Integrative-Task-ll
 
 Integrantes:
+
 Diego A. Polanco L. A00399926
+
 Pablo Andrés Guzmán A00399523
+
 Oscar S. Muñoz Ramirez A00399922
 
 Enunciado:

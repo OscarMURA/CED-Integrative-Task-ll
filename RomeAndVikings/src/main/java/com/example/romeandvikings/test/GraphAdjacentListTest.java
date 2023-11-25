@@ -11,11 +11,18 @@ import java.util.Arrays;
 import static org.junit.Assert.*;
 
 
+/**
+ * The class GraphAdjacentListTest sets up and tests different types of graphs using an adjacency list
+ * implementation.
+ */
 public class GraphAdjacentListTest {
 
     private GraphAdjacentList<Integer, Integer> graph;
     private GraphAdjacentList<Integer, String> graph2;
 
+    /**
+     * The function sets up a simple graph with vertices and edges.
+     */
     public void setUpStageSimpleGraph(){
         graph = new GraphAdjacentList(GraphType.SIMPLE);
         try {
@@ -38,6 +45,9 @@ public class GraphAdjacentListTest {
         }
     }
 
+    /**
+     * The function sets up a directed graph with vertices and edges.
+     */
     public void setUpStageDirected(){
         graph = new GraphAdjacentList(GraphType.DIRECTED);
         try {
@@ -83,6 +93,10 @@ public class GraphAdjacentListTest {
     }
 
 
+    /**
+     * The function sets up a simple graph with integer keys and string values, adding vertices and
+     * edges to it.
+     */
     public void setUpGraphSimpleWithKeyIntAndValueString(){
         graph2 = new GraphAdjacentList(GraphType.SIMPLE);
         try {
@@ -99,6 +113,8 @@ public class GraphAdjacentListTest {
         }
 
     }
+    /** The above code is setting up a graph with connections between vertices. There are two methods:
+    * setUpGraphWithConecctionWithSameWeight() and setUpGraphWithoutConected(). */
     public void setUpGraphWithConecctionWithSameWeight(){
         graph = new GraphAdjacentList(GraphType.SIMPLE);
         try {
@@ -118,6 +134,9 @@ public class GraphAdjacentListTest {
             fail("Exception no expected");
         }
     }
+    /**
+     * The function sets up a graph without any connections between the vertices.
+     */
     public void setUpGraphWithoutConected(){
         graph = new GraphAdjacentList(GraphType.SIMPLE);
         graph.addVertex(1, 1);
@@ -597,6 +616,7 @@ public class GraphAdjacentListTest {
     // edges of the same weight. It sets up a graph with connections of the same weight, then calls the
     // `kruskal()` method on the graph to get the result. The code then compares the expected edges
     // with the actual edges returned by the algorithm to ensure they match.
+    
     @Test
     public void testKruskalConectedGraphWithSameWeight(){
         setUpGraphWithConecctionWithSameWeight();
@@ -624,7 +644,8 @@ public class GraphAdjacentListTest {
         assertEquals(edge4.getWeight(),result.get(3).getWeight());
 
     }
-     /**
+
+    /**
      * The testKruskalSimple function tests the Kruskal's algorithm implementation on a simple graph
      * with integer keys and string values.
      */
@@ -651,7 +672,6 @@ public class GraphAdjacentListTest {
 
     }
 
-    
     /**
      * The testKruskalWithGraphWithoutConected function tests the Kruskal algorithm on a graph without
      * any connected components.
@@ -663,7 +683,7 @@ public class GraphAdjacentListTest {
         assertEquals(0,result.size());
     }
 
-        /**
+    /**
      * The testKruskalWithGraphWithoutConectedDirected function tests if an UnsupportedOperationException
      * is thrown when calling the kruskal method on a graph that is not connected and directed.
      */
@@ -678,7 +698,7 @@ public class GraphAdjacentListTest {
         }
     }
 
-        /**
+    /**
      * The testDFSwithConectedGraphSameWeight function tests the Depth First Search algorithm on a
      * connected graph with vertices of the same weight.
      */
@@ -701,7 +721,7 @@ public class GraphAdjacentListTest {
         assertEquals(7, vertex.getFinishTime());
     }
 
-        /**
+    /**
      * The testDFSWihtGraphSimple function tests the Depth First Search algorithm on a simple graph and
      * checks if the finish times of the vertices are correct.
      */
@@ -723,9 +743,9 @@ public class GraphAdjacentListTest {
         assertEquals(9, vertex.getFinishTime());
     }
 
-        /**
+    /**
      * The testDFSWihtGraphDirected function tests the Depth First Search algorithm on a directed graph
-     * and checks if the finish times of the vertices are correct.
+     * and checks the finish times of each vertex.
      */
     @Test
     public void testDFSWihtGraphDirected(){
@@ -755,9 +775,10 @@ public class GraphAdjacentListTest {
         assertEquals(9, vertex.getFinishTime());
     }
 
-    // Testing the DFS algorithm on a graph that is not
-    // connected. It sets up the graph, calls the DFS method, and then checks the finish times of each
-    // vertex to ensure they are correct.
+    /**
+     * The testDFSWihtGraphWithoutConected() function tests the Depth First Search algorithm on a graph
+     * without any connected components.
+     */
     @Test
     public void testDFSWihtGraphWithoutConected(){
         setUpGraphWithoutConected();
@@ -848,7 +869,7 @@ public class GraphAdjacentListTest {
         assertEquals(0,result.get(4).get(4).intValue());
     }
 
-        /**
+    /**
      * The testFloyWarshallWithGraphSimple function tests the correctness of the Floyd-Warshall
      * algorithm implementation on a simple graph.
      */
@@ -887,7 +908,7 @@ public class GraphAdjacentListTest {
         assertEquals(6,result.get(5).get(1).intValue());
     }
 
-        /**
+    /**
      * The testFloydWarshallOfGraphSimpleWithKeyIntAndValueString function tests the Floyd-Warshall
      * algorithm on a graph with integer keys and string values.
      */
@@ -914,9 +935,13 @@ public class GraphAdjacentListTest {
         assertEquals(0,result.get(3).get(3).intValue());
     }
 
-/**
- * The function tests the prim() method of a graph object without any connections.
- */
+    /**
+     * The function tests the prim() method of a graph object without any connections.
+     */
+    /**
+     * The testPrimOfGraphWithoutConnections function tests the prim() method of a graph object when
+     * there are no connections between vertices.
+     */
     @Test
     public void testPrimOfGraphWithoutConnections(){
         setUpGraphWithoutConected();
@@ -924,7 +949,8 @@ public class GraphAdjacentListTest {
         assertEquals(0,result.size());
     }
 
-        /**
+
+    /**
      * The testPrimOfGrapSimple function tests the prim() method of a graph by comparing the expected
      * output with the actual output.
      */
@@ -956,9 +982,9 @@ public class GraphAdjacentListTest {
     }
 
     /**
- * The testPrimOfGraphDirected function tests if the prim() method throws an
- * UnsupportedOperationException when called on a directed graph.
- */
+     * The testPrimOfGraphDirected function tests if the prim() method throws an
+     * UnsupportedOperationException when called on a directed graph.
+     */
     @Test
     public void testPrimOfGraphDirected(){
         setUpStageDirected();

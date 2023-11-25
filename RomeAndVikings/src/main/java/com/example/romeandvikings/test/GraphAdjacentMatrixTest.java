@@ -7,10 +7,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import static org.junit.Assert.*;
 
+/**
+ * The class GraphAdjacentMatrixTest is used to test the functionality of the GraphAdjacentMatrix
+ * class.
+ */
 public class GraphAdjacentMatrixTest {
     private GraphAdjacentMatrix<Integer, Integer> graph;
     private GraphAdjacentMatrix<Integer,String> graph2;
 
+    /**
+     * The function sets up a simple graph with 6 vertices and adds edges between them.
+     */
     public void setUpStageSimpleGraph(){
         graph = new GraphAdjacentMatrix(6,GraphType.SIMPLE);
         try {
@@ -33,6 +40,10 @@ public class GraphAdjacentMatrixTest {
         }
     }
 
+    /**
+     * The function sets up a directed graph with 11 vertices and adds edges between them with
+     * corresponding weights.
+     */
     public void setUpStageDirected(){
         graph = new GraphAdjacentMatrix(11,GraphType.DIRECTED);
         try {
@@ -77,6 +88,9 @@ public class GraphAdjacentMatrixTest {
         }
     }
 
+    /**
+     * The function sets up a graph without any connections between the vertices.
+     */
     public void setUpGraphWithoutConected(){
         graph = new GraphAdjacentMatrix(6,GraphType.SIMPLE);
         graph.addVertex(1, 1);
@@ -87,6 +101,10 @@ public class GraphAdjacentMatrixTest {
         graph.addVertex(6, 6);
     }
 
+    /**
+     * The function sets up a simple graph with integer keys and string values, adding vertices and
+     * edges to it.
+     */
     public void setUpGraphSimpleWithKeyIntAndValueString(){
         graph2 = new GraphAdjacentMatrix(4,GraphType.SIMPLE);
         try {
@@ -107,6 +125,9 @@ public class GraphAdjacentMatrixTest {
 
 
 
+    /**
+     * The function sets up a graph with vertices and edges, where all edges have the same weight.
+     */
     public void setUpGraphWithConecctionWithSameWeight(){
         graph = new GraphAdjacentMatrix(5,GraphType.SIMPLE);
         try {
@@ -596,10 +617,12 @@ public class GraphAdjacentMatrixTest {
             fail("Exception no expected");
         }
     }
+
     // The above code is testing the Kruskal's algorithm implementation for a connected graph with
     // edges of the same weight. It sets up a graph with connections of the same weight, then calls the
     // `kruskal()` method on the graph to get the result. The code then compares the expected edges
     // with the actual edges returned by the algorithm to ensure they match.
+
     @Test
     public void testKruskalConectedGraphWithSameWeight(){
         setUpGraphWithConecctionWithSameWeight();
@@ -658,6 +681,7 @@ public class GraphAdjacentMatrixTest {
      * The testKruskalWithGraphWithoutConected function tests the Kruskal algorithm on a graph without
      * any connected components.
      */
+
     @Test
     public void testKruskalWithGraphWithoutConected(){
         setUpGraphWithoutConected();
@@ -666,8 +690,10 @@ public class GraphAdjacentMatrixTest {
     }
 
     /**
-     * The testKruskalWithGraphWithoutConectedDirected function tests if an UnsupportedOperationException
-     * is thrown when calling the kruskal method on a graph that is not connected and directed.
+
+     * The testKruskalWithGraphWithoutConectedDirected function tests if an
+     * UnsupportedOperationException is thrown when calling the kruskal method on a graph that is not
+     * connected and directed.
      */
     @Test
     public void testKruskalWithGraphWithoutConectedDirected(){
@@ -732,7 +758,6 @@ public class GraphAdjacentMatrixTest {
         assertEquals(9, vertex.getFinishTime());
     }
 
-    
     /**
      * The testDFSWihtGraphDirected function tests the Depth First Search algorithm on a directed graph
      * and checks if the finish times of the vertices are correct.
@@ -769,9 +794,10 @@ public class GraphAdjacentMatrixTest {
         assertEquals(9, vertex.getFinishTime());
     }
 
-    // Testing the DFS algorithm on a graph that is not
-    // connected. It sets up the graph, calls the DFS method, and then checks the finish times of each
-    // vertex to ensure they are correct.
+    /**
+     * The testDFSWihtGraphWithoutConected function tests the Depth First Search algorithm on a graph
+     * without any connected vertices.
+     */
     @Test
     public void testDFSWihtGraphWithoutConected(){
         setUpGraphWithoutConected();
@@ -933,8 +959,10 @@ public class GraphAdjacentMatrixTest {
     }
 
     /**
-    * The function tests the prim() method of a graph object without any connections.
-    */
+
+     * The testPrimOfGraphWithoutConnections function tests the prim() method of a graph object when
+     * there are no connections between vertices.
+     */
     @Test
     public void testPrimOfGraphWithoutConnections(){
         setUpGraphWithoutConected();
@@ -973,10 +1001,12 @@ public class GraphAdjacentMatrixTest {
 
     }
 
-/**
- * The testPrimOfGraphDirected function tests if the prim() method throws an
- * UnsupportedOperationException when called on a directed graph.
- */
+
+    /**
+     * The testPrimOfGraphDirected function tests if the prim() method throws an
+     * UnsupportedOperationException when called on a directed graph.
+     */
+    
     @Test
     public void testPrimOfGraphDirected(){
         setUpStageDirected();
